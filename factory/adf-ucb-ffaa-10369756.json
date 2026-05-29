@@ -1,0 +1,10 @@
+{
+	"name": "adf-ucb-ffaa-10369756",
+	"properties": {
+		"trustModeClaimForMi": {
+			"value": "Enabled",
+			"editable": true
+		}
+	},
+	"location": "brazilsouth"
+}
