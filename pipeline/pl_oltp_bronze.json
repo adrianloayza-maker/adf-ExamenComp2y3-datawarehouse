@@ -43,13 +43,13 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "ds_tbl_efectivos",
+						"referenceName": "ds_tbl_especialidades",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "ds_bronze_tbl_efectivos",
+						"referenceName": "ds_bronze_tbl_especialidades",
 						"type": "DatasetReference"
 					}
 				]
