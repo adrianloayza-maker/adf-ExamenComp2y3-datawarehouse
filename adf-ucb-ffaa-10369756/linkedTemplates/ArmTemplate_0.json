@@ -113,11 +113,61 @@
 						"fileSystem": "bronze"
 					},
 					"columnDelimiter": ",",
+					"encodingName": "ISO-8859-1",
 					"escapeChar": "\\",
 					"firstRowAsHeader": true,
 					"quoteChar": "\""
 				},
-				"schema": []
+				"schema": [
+					{
+						"name": "id_efectivo",
+						"type": "String"
+					},
+					{
+						"name": "id_especialidad",
+						"type": "String"
+					},
+					{
+						"name": "id_unidad_actual",
+						"type": "String"
+					},
+					{
+						"name": "id_rango_actual",
+						"type": "String"
+					},
+					{
+						"name": "nombre",
+						"type": "String"
+					},
+					{
+						"name": "ci",
+						"type": "String"
+					},
+					{
+						"name": "fecha_nacimiento",
+						"type": "String"
+					},
+					{
+						"name": "genero",
+						"type": "String"
+					},
+					{
+						"name": "departamento_origen",
+						"type": "String"
+					},
+					{
+						"name": "fecha_ingreso",
+						"type": "String"
+					},
+					{
+						"name": "estado",
+						"type": "String"
+					},
+					{
+						"name": "salario_mensual",
+						"type": "String"
+					}
+				]
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/datalake_ffaa')]"
@@ -148,7 +198,20 @@
 					"firstRowAsHeader": true,
 					"quoteChar": "\""
 				},
-				"schema": []
+				"schema": [
+					{
+						"name": "id_especialidad",
+						"type": "String"
+					},
+					{
+						"name": "nombre",
+						"type": "String"
+					},
+					{
+						"name": "area",
+						"type": "String"
+					}
+				]
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/datalake_ffaa')]"
@@ -179,7 +242,36 @@
 					"firstRowAsHeader": true,
 					"quoteChar": "\""
 				},
-				"schema": []
+				"schema": [
+					{
+						"name": "id_estructura",
+						"type": "String"
+					},
+					{
+						"name": "id_padre",
+						"type": "String"
+					},
+					{
+						"name": "nivel",
+						"type": "String"
+					},
+					{
+						"name": "nombre",
+						"type": "String"
+					},
+					{
+						"name": "sigla",
+						"type": "String"
+					},
+					{
+						"name": "tipo",
+						"type": "String"
+					},
+					{
+						"name": "cobertura_departamentos",
+						"type": "String"
+					}
+				]
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/datalake_ffaa')]"
@@ -210,7 +302,44 @@
 					"firstRowAsHeader": true,
 					"quoteChar": "\""
 				},
-				"schema": []
+				"schema": [
+					{
+						"name": "id_movimiento",
+						"type": "String"
+					},
+					{
+						"name": "id_efectivo",
+						"type": "String"
+					},
+					{
+						"name": "id_unidad_destino",
+						"type": "String"
+					},
+					{
+						"name": "id_rango",
+						"type": "String"
+					},
+					{
+						"name": "id_tipo",
+						"type": "String"
+					},
+					{
+						"name": "fecha_movimiento",
+						"type": "String"
+					},
+					{
+						"name": "antiguedad_anios",
+						"type": "String"
+					},
+					{
+						"name": "salario_mensual",
+						"type": "String"
+					},
+					{
+						"name": "observaciones",
+						"type": "String"
+					}
+				]
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/datalake_ffaa')]"
@@ -241,7 +370,72 @@
 					"firstRowAsHeader": true,
 					"quoteChar": "\""
 				},
-				"schema": []
+				"schema": [
+					{
+						"name": "id_operacion",
+						"type": "String"
+					},
+					{
+						"name": "id_tipo",
+						"type": "String"
+					},
+					{
+						"name": "id_unidad_resp",
+						"type": "String"
+					},
+					{
+						"name": "id_zona",
+						"type": "String"
+					},
+					{
+						"name": "nombre_operacion",
+						"type": "String"
+					},
+					{
+						"name": "fecha_inicio",
+						"type": "String"
+					},
+					{
+						"name": "fecha_fin",
+						"type": "String"
+					},
+					{
+						"name": "efectivos_desplegados",
+						"type": "String"
+					},
+					{
+						"name": "vehiculos_utilizados",
+						"type": "String"
+					},
+					{
+						"name": "duracion_dias",
+						"type": "String"
+					},
+					{
+						"name": "costo_operacion",
+						"type": "String"
+					},
+					{
+						"name": "resultado",
+						"type": "String"
+					},
+					{
+						"name": "detenidos",
+						"type": "String"
+					},
+					{
+						"name": "area_km2",
+						"type": "String"
+					},
+					{
+						"name": "incidentes",
+						"type": "String"
+					},
+					{
+						"name": "observaciones",
+						"type": "String"
+					}
+				]
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/datalake_ffaa')]"
@@ -272,7 +466,28 @@
 					"firstRowAsHeader": true,
 					"quoteChar": "\""
 				},
-				"schema": []
+				"schema": [
+					{
+						"name": "id_rango",
+						"type": "String"
+					},
+					{
+						"name": "nombre",
+						"type": "String"
+					},
+					{
+						"name": "categoria",
+						"type": "String"
+					},
+					{
+						"name": "nivel_jerarquico",
+						"type": "String"
+					},
+					{
+						"name": "abreviatura",
+						"type": "String"
+					}
+				]
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/datalake_ffaa')]"
@@ -303,7 +518,20 @@
 					"firstRowAsHeader": true,
 					"quoteChar": "\""
 				},
-				"schema": []
+				"schema": [
+					{
+						"name": "id_tipo",
+						"type": "String"
+					},
+					{
+						"name": "nombre",
+						"type": "String"
+					},
+					{
+						"name": "descripcion",
+						"type": "String"
+					}
+				]
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/datalake_ffaa')]"
@@ -334,7 +562,20 @@
 					"firstRowAsHeader": true,
 					"quoteChar": "\""
 				},
-				"schema": []
+				"schema": [
+					{
+						"name": "id_tipo",
+						"type": "String"
+					},
+					{
+						"name": "nombre",
+						"type": "String"
+					},
+					{
+						"name": "categoria",
+						"type": "String"
+					}
+				]
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/datalake_ffaa')]"
@@ -365,7 +606,36 @@
 					"firstRowAsHeader": true,
 					"quoteChar": "\""
 				},
-				"schema": []
+				"schema": [
+					{
+						"name": "id_unidad",
+						"type": "String"
+					},
+					{
+						"name": "id_brigada",
+						"type": "String"
+					},
+					{
+						"name": "nombre",
+						"type": "String"
+					},
+					{
+						"name": "codigo",
+						"type": "String"
+					},
+					{
+						"name": "ciudad",
+						"type": "String"
+					},
+					{
+						"name": "departamento",
+						"type": "String"
+					},
+					{
+						"name": "tipo_cuartel",
+						"type": "String"
+					}
+				]
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/datalake_ffaa')]"
@@ -396,7 +666,40 @@
 					"firstRowAsHeader": true,
 					"quoteChar": "\""
 				},
-				"schema": []
+				"schema": [
+					{
+						"name": "id_zona",
+						"type": "String"
+					},
+					{
+						"name": "nombre",
+						"type": "String"
+					},
+					{
+						"name": "departamento",
+						"type": "String"
+					},
+					{
+						"name": "frontera_con",
+						"type": "String"
+					},
+					{
+						"name": "tipo_terreno",
+						"type": "String"
+					},
+					{
+						"name": "altitud_msnm",
+						"type": "String"
+					},
+					{
+						"name": "nivel_riesgo",
+						"type": "String"
+					},
+					{
+						"name": "acceso_carretero",
+						"type": "String"
+					}
+				]
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/datalake_ffaa')]"

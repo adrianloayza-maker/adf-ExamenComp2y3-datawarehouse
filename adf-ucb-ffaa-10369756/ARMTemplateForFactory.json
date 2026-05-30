@@ -573,11 +573,61 @@
 						"fileSystem": "bronze"
 					},
 					"columnDelimiter": ",",
+					"encodingName": "ISO-8859-1",
 					"escapeChar": "\\",
 					"firstRowAsHeader": true,
 					"quoteChar": "\""
 				},
-				"schema": []
+				"schema": [
+					{
+						"name": "id_efectivo",
+						"type": "String"
+					},
+					{
+						"name": "id_especialidad",
+						"type": "String"
+					},
+					{
+						"name": "id_unidad_actual",
+						"type": "String"
+					},
+					{
+						"name": "id_rango_actual",
+						"type": "String"
+					},
+					{
+						"name": "nombre",
+						"type": "String"
+					},
+					{
+						"name": "ci",
+						"type": "String"
+					},
+					{
+						"name": "fecha_nacimiento",
+						"type": "String"
+					},
+					{
+						"name": "genero",
+						"type": "String"
+					},
+					{
+						"name": "departamento_origen",
+						"type": "String"
+					},
+					{
+						"name": "fecha_ingreso",
+						"type": "String"
+					},
+					{
+						"name": "estado",
+						"type": "String"
+					},
+					{
+						"name": "salario_mensual",
+						"type": "String"
+					}
+				]
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/datalake_ffaa')]"
@@ -608,7 +658,20 @@
 					"firstRowAsHeader": true,
 					"quoteChar": "\""
 				},
-				"schema": []
+				"schema": [
+					{
+						"name": "id_especialidad",
+						"type": "String"
+					},
+					{
+						"name": "nombre",
+						"type": "String"
+					},
+					{
+						"name": "area",
+						"type": "String"
+					}
+				]
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/datalake_ffaa')]"
@@ -639,7 +702,36 @@
 					"firstRowAsHeader": true,
 					"quoteChar": "\""
 				},
-				"schema": []
+				"schema": [
+					{
+						"name": "id_estructura",
+						"type": "String"
+					},
+					{
+						"name": "id_padre",
+						"type": "String"
+					},
+					{
+						"name": "nivel",
+						"type": "String"
+					},
+					{
+						"name": "nombre",
+						"type": "String"
+					},
+					{
+						"name": "sigla",
+						"type": "String"
+					},
+					{
+						"name": "tipo",
+						"type": "String"
+					},
+					{
+						"name": "cobertura_departamentos",
+						"type": "String"
+					}
+				]
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/datalake_ffaa')]"
@@ -670,7 +762,44 @@
 					"firstRowAsHeader": true,
 					"quoteChar": "\""
 				},
-				"schema": []
+				"schema": [
+					{
+						"name": "id_movimiento",
+						"type": "String"
+					},
+					{
+						"name": "id_efectivo",
+						"type": "String"
+					},
+					{
+						"name": "id_unidad_destino",
+						"type": "String"
+					},
+					{
+						"name": "id_rango",
+						"type": "String"
+					},
+					{
+						"name": "id_tipo",
+						"type": "String"
+					},
+					{
+						"name": "fecha_movimiento",
+						"type": "String"
+					},
+					{
+						"name": "antiguedad_anios",
+						"type": "String"
+					},
+					{
+						"name": "salario_mensual",
+						"type": "String"
+					},
+					{
+						"name": "observaciones",
+						"type": "String"
+					}
+				]
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/datalake_ffaa')]"
@@ -701,7 +830,72 @@
 					"firstRowAsHeader": true,
 					"quoteChar": "\""
 				},
-				"schema": []
+				"schema": [
+					{
+						"name": "id_operacion",
+						"type": "String"
+					},
+					{
+						"name": "id_tipo",
+						"type": "String"
+					},
+					{
+						"name": "id_unidad_resp",
+						"type": "String"
+					},
+					{
+						"name": "id_zona",
+						"type": "String"
+					},
+					{
+						"name": "nombre_operacion",
+						"type": "String"
+					},
+					{
+						"name": "fecha_inicio",
+						"type": "String"
+					},
+					{
+						"name": "fecha_fin",
+						"type": "String"
+					},
+					{
+						"name": "efectivos_desplegados",
+						"type": "String"
+					},
+					{
+						"name": "vehiculos_utilizados",
+						"type": "String"
+					},
+					{
+						"name": "duracion_dias",
+						"type": "String"
+					},
+					{
+						"name": "costo_operacion",
+						"type": "String"
+					},
+					{
+						"name": "resultado",
+						"type": "String"
+					},
+					{
+						"name": "detenidos",
+						"type": "String"
+					},
+					{
+						"name": "area_km2",
+						"type": "String"
+					},
+					{
+						"name": "incidentes",
+						"type": "String"
+					},
+					{
+						"name": "observaciones",
+						"type": "String"
+					}
+				]
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/datalake_ffaa')]"
@@ -732,7 +926,28 @@
 					"firstRowAsHeader": true,
 					"quoteChar": "\""
 				},
-				"schema": []
+				"schema": [
+					{
+						"name": "id_rango",
+						"type": "String"
+					},
+					{
+						"name": "nombre",
+						"type": "String"
+					},
+					{
+						"name": "categoria",
+						"type": "String"
+					},
+					{
+						"name": "nivel_jerarquico",
+						"type": "String"
+					},
+					{
+						"name": "abreviatura",
+						"type": "String"
+					}
+				]
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/datalake_ffaa')]"
@@ -763,7 +978,20 @@
 					"firstRowAsHeader": true,
 					"quoteChar": "\""
 				},
-				"schema": []
+				"schema": [
+					{
+						"name": "id_tipo",
+						"type": "String"
+					},
+					{
+						"name": "nombre",
+						"type": "String"
+					},
+					{
+						"name": "descripcion",
+						"type": "String"
+					}
+				]
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/datalake_ffaa')]"
@@ -794,7 +1022,20 @@
 					"firstRowAsHeader": true,
 					"quoteChar": "\""
 				},
-				"schema": []
+				"schema": [
+					{
+						"name": "id_tipo",
+						"type": "String"
+					},
+					{
+						"name": "nombre",
+						"type": "String"
+					},
+					{
+						"name": "categoria",
+						"type": "String"
+					}
+				]
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/datalake_ffaa')]"
@@ -825,7 +1066,36 @@
 					"firstRowAsHeader": true,
 					"quoteChar": "\""
 				},
-				"schema": []
+				"schema": [
+					{
+						"name": "id_unidad",
+						"type": "String"
+					},
+					{
+						"name": "id_brigada",
+						"type": "String"
+					},
+					{
+						"name": "nombre",
+						"type": "String"
+					},
+					{
+						"name": "codigo",
+						"type": "String"
+					},
+					{
+						"name": "ciudad",
+						"type": "String"
+					},
+					{
+						"name": "departamento",
+						"type": "String"
+					},
+					{
+						"name": "tipo_cuartel",
+						"type": "String"
+					}
+				]
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/datalake_ffaa')]"
@@ -856,7 +1126,40 @@
 					"firstRowAsHeader": true,
 					"quoteChar": "\""
 				},
-				"schema": []
+				"schema": [
+					{
+						"name": "id_zona",
+						"type": "String"
+					},
+					{
+						"name": "nombre",
+						"type": "String"
+					},
+					{
+						"name": "departamento",
+						"type": "String"
+					},
+					{
+						"name": "frontera_con",
+						"type": "String"
+					},
+					{
+						"name": "tipo_terreno",
+						"type": "String"
+					},
+					{
+						"name": "altitud_msnm",
+						"type": "String"
+					},
+					{
+						"name": "nivel_riesgo",
+						"type": "String"
+					},
+					{
+						"name": "acceso_carretero",
+						"type": "String"
+					}
+				]
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/datalake_ffaa')]"
@@ -1479,6 +1782,822 @@
 				}
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_silver_efectivos')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "datalake_ffaa",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "silver"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "tbl_efectivos.csv",
+						"fileSystem": "bronze"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "id_efectivo",
+						"type": "String"
+					},
+					{
+						"name": "id_especialidad",
+						"type": "String"
+					},
+					{
+						"name": "id_unidad_actual",
+						"type": "String"
+					},
+					{
+						"name": "id_rango_actual",
+						"type": "String"
+					},
+					{
+						"name": "nombre",
+						"type": "String"
+					},
+					{
+						"name": "ci",
+						"type": "String"
+					},
+					{
+						"name": "fecha_nacimiento",
+						"type": "String"
+					},
+					{
+						"name": "genero",
+						"type": "String"
+					},
+					{
+						"name": "departamento_origen",
+						"type": "String"
+					},
+					{
+						"name": "fecha_ingreso",
+						"type": "String"
+					},
+					{
+						"name": "estado",
+						"type": "String"
+					},
+					{
+						"name": "salario_mensual",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/datalake_ffaa')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/powerquery1')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "WranglingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"name": "ds_bronze_tbl_efectivos",
+							"script": "source(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~>  ds_bronze_tbl_efectivos",
+							"dataset": {
+								"referenceName": "ds_bronze_tbl_efectivos",
+								"type": "DatasetReference"
+							}
+						}
+					],
+					"script": "section Section1;\r\nshared ds_bronze_tbl_efectivos = let AdfDoc = AzureStorage.DataLakeContents(\"https://saffaa10369756.dfs.core.windows.net/bronze/tbl_efectivos.csv\"),Csv = Csv.Document(AdfDoc, [Delimiter = \",\", Encoding = TextEncoding.Utf8, QuoteStyle = QuoteStyle.Csv]), PromotedHeaders = Table.PromoteHeaders(Csv, [PromoteAllScalars = true]) in  PromotedHeaders;\r\nshared UserQuery = let Source = #\"ds_bronze_tbl_efectivos\" in Source;\r\n",
+					"documentLocale": "en-us"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/ds_bronze_tbl_efectivos')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/df_silver_efectivos')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "ds_bronze_tbl_efectivos",
+								"type": "DatasetReference"
+							},
+							"name": "source1"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "ds_silver_efectivos",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [
+						{
+							"name": "derivedColumn1"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          id_efectivo as string,",
+						"          id_especialidad as string,",
+						"          id_unidad_actual as string,",
+						"          id_rango_actual as string,",
+						"          nombre as string,",
+						"          ci as string,",
+						"          fecha_nacimiento as string,",
+						"          genero as string,",
+						"          departamento_origen as string,",
+						"          fecha_ingreso as string,",
+						"          estado as string,",
+						"          salario_mensual as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> source1",
+						"source1 derive(genero = case(\r",
+						"    in(['M','H','MASC.','MASCULINO','HOMBRE'], upper(trim(genero))), 'MASCULINO',\r",
+						"    in(['F','FEM','FEM.','FEMENINO','MUJER'], upper(trim(genero))), 'FEMENINO',\r",
+						"    'SIN DATO'\r",
+						"),",
+						"          departamento_origen = case(\r",
+						"    in(['LP','L.P.','LAPAZ','LA PAZ'], upper(trim(departamento_origen))), 'LA PAZ',\r",
+						"    in(['CBBA','CBBA.','COCHABAMBA'], upper(trim(departamento_origen))), 'COCHABAMBA',\r",
+						"    in(['SC','SCZ','STA CRUZ','SANTA CRUZ'], upper(trim(departamento_origen))), 'SANTA CRUZ',\r",
+						"    in(['OR','ORURO'], upper(trim(departamento_origen))), 'ORURO',\r",
+						"    in(['PT','POTOSI'], upper(trim(departamento_origen))), 'POTOSI',\r",
+						"    in(['TJ','TARIJA'], upper(trim(departamento_origen))), 'TARIJA',\r",
+						"    in(['BN','BENI'], upper(trim(departamento_origen))), 'BENI',\r",
+						"    in(['PD','PANDO'], upper(trim(departamento_origen))), 'PANDO',\r",
+						"    in(['CH','CHUQUISACA'], upper(trim(departamento_origen))), 'CHUQUISACA',\r",
+						"    upper(trim(departamento_origen))\r",
+						"),",
+						"          estado = case(\r",
+						"    in(['ACTIVO','ACT','ACT.','ACTV','A','EN ACTIVIDAD'], upper(trim(estado))), 'ACTIVO',\r",
+						"    in(['R','RSV','RESERVA','EN RESERVA'], upper(trim(estado))), 'RESERVA',\r",
+						"    in(['BAJA','B','DADO DE BAJA'], upper(trim(estado))), 'BAJA',\r",
+						"    'SIN DATO'\r",
+						"),",
+						"          ci = regexReplace(\r",
+						"    toString(ci),\r",
+						"    '[^0-9]',\r",
+						"    ''\r",
+						"),",
+						"          salario_mensual = toDecimal(\r",
+						"    regexReplace(\r",
+						"        toString(salario_mensual),\r",
+						"        '[^0-9.]',\r",
+						"        ''\r",
+						"    )\r",
+						"),",
+						"          fecha_nacimiento = coalesce(\r",
+						"    toDate(fecha_nacimiento,'yyyy-MM-dd'),\r",
+						"    toDate(fecha_nacimiento,'dd/MM/yyyy'),\r",
+						"    toDate(fecha_nacimiento,'MM-dd-yyyy'),\r",
+						"    toDate(fecha_nacimiento,'yyyy/MM/dd'),\r",
+						"    toDate(fecha_nacimiento,'dd-MM-yyyy')\r",
+						"),",
+						"          fecha_ingreso = coalesce(\r",
+						"    toDate(fecha_ingreso,'yyyy-MM-dd'),\r",
+						"    toDate(fecha_ingreso,'dd/MM/yyyy'),\r",
+						"    toDate(fecha_ingreso,'MM-dd-yyyy'),\r",
+						"    toDate(fecha_ingreso,'yyyy/MM/dd'),\r",
+						"    toDate(fecha_ingreso,'dd-MM-yyyy')\r",
+						"),",
+						"          nombre = initCap(\r",
+						"    regexReplace(\r",
+						"        replace(\r",
+						"            replace(\r",
+						"                replace(\r",
+						"                    replace(\r",
+						"                        replace(\r",
+						"                            replace(\r",
+						"                                replace(\r",
+						"                                    replace(\r",
+						"                                        trim(nombre),\r",
+						"                                        '\\\\t',\r",
+						"                                        ' '\r",
+						"                                    ),\r",
+						"                                    'Ã¡',\r",
+						"                                    'á'\r",
+						"                                ),\r",
+						"                                'Ã©',\r",
+						"                                'é'\r",
+						"                            ),\r",
+						"                            'Ã­',\r",
+						"                            'í'\r",
+						"                        ),\r",
+						"                        'Ã³',\r",
+						"                        'ó'\r",
+						"                    ),\r",
+						"                    'Ãº',\r",
+						"                    'ú'\r",
+						"                ),\r",
+						"                'Ã±',\r",
+						"                'ñ'\r",
+						"            ),\r",
+						"            '#',\r",
+						"            ' '\r",
+						"        ),\r",
+						"        '\\\\s+',\r",
+						"        ' '\r",
+						"    )\r",
+						")) ~> derivedColumn1",
+						"derivedColumn1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          id_efectivo as string,",
+						"          id_especialidad as string,",
+						"          id_unidad_actual as string,",
+						"          id_rango_actual as string,",
+						"          nombre as string,",
+						"          ci as string,",
+						"          fecha_nacimiento as string,",
+						"          genero as string,",
+						"          departamento_origen as string,",
+						"          fecha_ingreso as string,",
+						"          estado as string,",
+						"          salario_mensual as string",
+						"     ),",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     mapColumn(",
+						"          id_efectivo,",
+						"          id_especialidad,",
+						"          id_unidad_actual,",
+						"          id_rango_actual,",
+						"          nombre,",
+						"          ci,",
+						"          fecha_nacimiento,",
+						"          genero,",
+						"          departamento_origen,",
+						"          fecha_ingreso,",
+						"          estado,",
+						"          salario_mensual",
+						"     )) ~> sink1"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/ds_bronze_tbl_efectivos')]",
+				"[concat(variables('factoryId'), '/datasets/ds_silver_efectivos')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_silver_especialidades')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "datalake_ffaa",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "silver"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "tbl_especialidades.csv",
+						"fileSystem": "bronze"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "id_especialidad",
+						"type": "String"
+					},
+					{
+						"name": "nombre",
+						"type": "String"
+					},
+					{
+						"name": "area",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/datalake_ffaa')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_silver_estructura_organizacional')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "datalake_ffaa",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "silver"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "tbl_estructura_organizacional.csv",
+						"fileSystem": "bronze"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "id_estructura",
+						"type": "String"
+					},
+					{
+						"name": "id_padre",
+						"type": "String"
+					},
+					{
+						"name": "nivel",
+						"type": "String"
+					},
+					{
+						"name": "nombre",
+						"type": "String"
+					},
+					{
+						"name": "sigla",
+						"type": "String"
+					},
+					{
+						"name": "tipo",
+						"type": "String"
+					},
+					{
+						"name": "cobertura_departamentos",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/datalake_ffaa')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_silver_movimientos_personal')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "datalake_ffaa",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "silver"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "tbl_movimientos_personal.csv",
+						"fileSystem": "bronze"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "id_movimiento",
+						"type": "String"
+					},
+					{
+						"name": "id_efectivo",
+						"type": "String"
+					},
+					{
+						"name": "id_unidad_destino",
+						"type": "String"
+					},
+					{
+						"name": "id_rango",
+						"type": "String"
+					},
+					{
+						"name": "id_tipo",
+						"type": "String"
+					},
+					{
+						"name": "fecha_movimiento",
+						"type": "String"
+					},
+					{
+						"name": "antiguedad_anios",
+						"type": "String"
+					},
+					{
+						"name": "salario_mensual",
+						"type": "String"
+					},
+					{
+						"name": "observaciones",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/datalake_ffaa')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_silver_operaciones')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "datalake_ffaa",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "silver"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "tbl_operaciones.csv",
+						"fileSystem": "bronze"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "id_operacion",
+						"type": "String"
+					},
+					{
+						"name": "id_tipo",
+						"type": "String"
+					},
+					{
+						"name": "id_unidad_resp",
+						"type": "String"
+					},
+					{
+						"name": "id_zona",
+						"type": "String"
+					},
+					{
+						"name": "nombre_operacion",
+						"type": "String"
+					},
+					{
+						"name": "fecha_inicio",
+						"type": "String"
+					},
+					{
+						"name": "fecha_fin",
+						"type": "String"
+					},
+					{
+						"name": "efectivos_desplegados",
+						"type": "String"
+					},
+					{
+						"name": "vehiculos_utilizados",
+						"type": "String"
+					},
+					{
+						"name": "duracion_dias",
+						"type": "String"
+					},
+					{
+						"name": "costo_operacion",
+						"type": "String"
+					},
+					{
+						"name": "resultado",
+						"type": "String"
+					},
+					{
+						"name": "detenidos",
+						"type": "String"
+					},
+					{
+						"name": "area_km2",
+						"type": "String"
+					},
+					{
+						"name": "incidentes",
+						"type": "String"
+					},
+					{
+						"name": "observaciones",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/datalake_ffaa')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_silver_rangos')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "datalake_ffaa",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "silver"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "tbl_rangos.csv",
+						"fileSystem": "bronze"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "id_rango",
+						"type": "String"
+					},
+					{
+						"name": "nombre",
+						"type": "String"
+					},
+					{
+						"name": "categoria",
+						"type": "String"
+					},
+					{
+						"name": "nivel_jerarquico",
+						"type": "String"
+					},
+					{
+						"name": "abreviatura",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/datalake_ffaa')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_silver_tipos_movimiento')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "datalake_ffaa",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "silver"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "tbl_tipos_movimiento.csv",
+						"fileSystem": "bronze"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "id_tipo",
+						"type": "String"
+					},
+					{
+						"name": "nombre",
+						"type": "String"
+					},
+					{
+						"name": "descripcion",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/datalake_ffaa')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_silver_tipos_operacion')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "datalake_ffaa",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "silver"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "tbl_tipos_operacion.csv",
+						"fileSystem": "bronze"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "id_tipo",
+						"type": "String"
+					},
+					{
+						"name": "nombre",
+						"type": "String"
+					},
+					{
+						"name": "categoria",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/datalake_ffaa')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_silver_unidades')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "datalake_ffaa",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "silver"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "tbl_unidades.csv",
+						"fileSystem": "bronze"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "id_unidad",
+						"type": "String"
+					},
+					{
+						"name": "id_brigada",
+						"type": "String"
+					},
+					{
+						"name": "nombre",
+						"type": "String"
+					},
+					{
+						"name": "codigo",
+						"type": "String"
+					},
+					{
+						"name": "ciudad",
+						"type": "String"
+					},
+					{
+						"name": "departamento",
+						"type": "String"
+					},
+					{
+						"name": "tipo_cuartel",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/datalake_ffaa')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_silver_zonas')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "datalake_ffaa",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "silver"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "tbl_zonas.csv",
+						"fileSystem": "bronze"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "id_zona",
+						"type": "String"
+					},
+					{
+						"name": "nombre",
+						"type": "String"
+					},
+					{
+						"name": "departamento",
+						"type": "String"
+					},
+					{
+						"name": "frontera_con",
+						"type": "String"
+					},
+					{
+						"name": "tipo_terreno",
+						"type": "String"
+					},
+					{
+						"name": "altitud_msnm",
+						"type": "String"
+					},
+					{
+						"name": "nivel_riesgo",
+						"type": "String"
+					},
+					{
+						"name": "acceso_carretero",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/datalake_ffaa')]"
+			]
 		}
 	]
 }
