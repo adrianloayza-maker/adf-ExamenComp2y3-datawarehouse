@@ -1,5 +1,5 @@
 {
-	"name": "ds_silver_tbl_efectivos",
+	"name": "ds_silver_efectivos",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "datalake_ffaa",

@@ -15,7 +15,7 @@
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "ds_silver_tbl_efectivos",
+						"referenceName": "ds_silver_efectivos",
 						"type": "DatasetReference"
 					},
 					"name": "sink1"
