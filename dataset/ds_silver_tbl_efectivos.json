@@ -1,12 +1,12 @@
 {
-	"name": "ds_bronze_tbl_efectivos",
+	"name": "ds_silver_tbl_efectivos",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "datalake_ffaa",
 			"type": "LinkedServiceReference"
 		},
 		"folder": {
-			"name": "bronze"
+			"name": "silver"
 		},
 		"annotations": [],
 		"type": "DelimitedText",
@@ -17,7 +17,6 @@
 				"fileSystem": "bronze"
 			},
 			"columnDelimiter": ",",
-			"encodingName": "ISO-8859-1",
 			"escapeChar": "\\",
 			"firstRowAsHeader": true,
 			"quoteChar": "\""
