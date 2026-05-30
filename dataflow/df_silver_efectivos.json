@@ -167,7 +167,8 @@
 				"          fecha_ingreso,",
 				"          estado,",
 				"          salario_mensual",
-				"     )) ~> sink1"
+				"     ),",
+				"     partitionBy('hash', 1)) ~> sink1"
 			]
 		}
 	}
