@@ -1801,7 +1801,7 @@
 					"location": {
 						"type": "AzureBlobFSLocation",
 						"fileName": "tbl_efectivos.csv",
-						"fileSystem": "bronze"
+						"fileSystem": "silver"
 					},
 					"columnDelimiter": ",",
 					"escapeChar": "\\",
@@ -2085,7 +2085,7 @@
 					"location": {
 						"type": "AzureBlobFSLocation",
 						"fileName": "tbl_especialidades.csv",
-						"fileSystem": "bronze"
+						"fileSystem": "silver"
 					},
 					"columnDelimiter": ",",
 					"escapeChar": "\\",
@@ -2129,7 +2129,7 @@
 					"location": {
 						"type": "AzureBlobFSLocation",
 						"fileName": "tbl_estructura_organizacional.csv",
-						"fileSystem": "bronze"
+						"fileSystem": "silver"
 					},
 					"columnDelimiter": ",",
 					"escapeChar": "\\",
@@ -2189,7 +2189,7 @@
 					"location": {
 						"type": "AzureBlobFSLocation",
 						"fileName": "tbl_movimientos_personal.csv",
-						"fileSystem": "bronze"
+						"fileSystem": "silver"
 					},
 					"columnDelimiter": ",",
 					"escapeChar": "\\",
@@ -2257,7 +2257,7 @@
 					"location": {
 						"type": "AzureBlobFSLocation",
 						"fileName": "tbl_operaciones.csv",
-						"fileSystem": "bronze"
+						"fileSystem": "silver"
 					},
 					"columnDelimiter": ",",
 					"escapeChar": "\\",
@@ -2353,7 +2353,7 @@
 					"location": {
 						"type": "AzureBlobFSLocation",
 						"fileName": "tbl_rangos.csv",
-						"fileSystem": "bronze"
+						"fileSystem": "silver"
 					},
 					"columnDelimiter": ",",
 					"escapeChar": "\\",
@@ -2405,7 +2405,7 @@
 					"location": {
 						"type": "AzureBlobFSLocation",
 						"fileName": "tbl_tipos_movimiento.csv",
-						"fileSystem": "bronze"
+						"fileSystem": "silver"
 					},
 					"columnDelimiter": ",",
 					"escapeChar": "\\",
@@ -2449,7 +2449,7 @@
 					"location": {
 						"type": "AzureBlobFSLocation",
 						"fileName": "tbl_tipos_operacion.csv",
-						"fileSystem": "bronze"
+						"fileSystem": "silver"
 					},
 					"columnDelimiter": ",",
 					"escapeChar": "\\",
@@ -2493,7 +2493,7 @@
 					"location": {
 						"type": "AzureBlobFSLocation",
 						"fileName": "tbl_unidades.csv",
-						"fileSystem": "bronze"
+						"fileSystem": "silver"
 					},
 					"columnDelimiter": ",",
 					"escapeChar": "\\",
@@ -2553,7 +2553,7 @@
 					"location": {
 						"type": "AzureBlobFSLocation",
 						"fileName": "tbl_zonas.csv",
-						"fileSystem": "bronze"
+						"fileSystem": "silver"
 					},
 					"columnDelimiter": ",",
 					"escapeChar": "\\",
