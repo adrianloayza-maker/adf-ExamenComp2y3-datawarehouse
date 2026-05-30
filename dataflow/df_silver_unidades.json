@@ -1,0 +1,59 @@
+{
+	"name": "df_silver_unidades",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ds_bronze_tbl_unidades",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ds_silver_unidades",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [],
+			"scriptLines": [
+				"source(output(",
+				"          id_unidad as string,",
+				"          id_brigada as string,",
+				"          nombre as string,",
+				"          codigo as string,",
+				"          ciudad as string,",
+				"          departamento as string,",
+				"          tipo_cuartel as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> source1",
+				"source1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          id_unidad as string,",
+				"          id_brigada as string,",
+				"          nombre as string,",
+				"          codigo as string,",
+				"          ciudad as string,",
+				"          departamento as string,",
+				"          tipo_cuartel as string",
+				"     ),",
+				"     partitionFileNames:['tbl_unidades.csv'],",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> sink1"
+			]
+		}
+	}
+}
