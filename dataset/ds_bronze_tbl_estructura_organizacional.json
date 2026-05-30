@@ -21,6 +21,35 @@
 			"firstRowAsHeader": true,
 			"quoteChar": "\""
 		},
-		"schema": []
+		"schema": [
+			{
+				"name": "id_estructura",
+				"type": "String"
+			},
+			{
+				"name": "id_padre",
+				"type": "String"
+			},
+			{
+				"name": "nivel",
+				"type": "String"
+			},
+			{
+				"name": "nombre",
+				"type": "String"
+			},
+			{
+				"name": "sigla",
+				"type": "String"
+			},
+			{
+				"name": "tipo",
+				"type": "String"
+			},
+			{
+				"name": "cobertura_departamentos",
+				"type": "String"
+			}
+		]
 	}
 }

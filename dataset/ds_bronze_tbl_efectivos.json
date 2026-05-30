@@ -21,6 +21,55 @@
 			"firstRowAsHeader": true,
 			"quoteChar": "\""
 		},
-		"schema": []
+		"schema": [
+			{
+				"name": "id_efectivo",
+				"type": "String"
+			},
+			{
+				"name": "id_especialidad",
+				"type": "String"
+			},
+			{
+				"name": "id_unidad_actual",
+				"type": "String"
+			},
+			{
+				"name": "id_rango_actual",
+				"type": "String"
+			},
+			{
+				"name": "nombre",
+				"type": "String"
+			},
+			{
+				"name": "ci",
+				"type": "String"
+			},
+			{
+				"name": "fecha_nacimiento",
+				"type": "String"
+			},
+			{
+				"name": "genero",
+				"type": "String"
+			},
+			{
+				"name": "departamento_origen",
+				"type": "String"
+			},
+			{
+				"name": "fecha_ingreso",
+				"type": "String"
+			},
+			{
+				"name": "estado",
+				"type": "String"
+			},
+			{
+				"name": "salario_mensual",
+				"type": "String"
+			}
+		]
 	}
 }
