@@ -148,6 +148,7 @@
 				"          estado as string,",
 				"          salario_mensual as string",
 				"     ),",
+				"     partitionFileNames:['tbl_efectivos.csv'],",
 				"     umask: 0022,",
 				"     preCommands: [],",
 				"     postCommands: [],",
