@@ -1,0 +1,59 @@
+{
+	"name": "df_estructura_organizacional",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ds_bronze_tbl_estructura_organizacional",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ds_silver_estructura_organizacional",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [],
+			"scriptLines": [
+				"source(output(",
+				"          id_estructura as string,",
+				"          id_padre as string,",
+				"          nivel as string,",
+				"          nombre as string,",
+				"          sigla as string,",
+				"          tipo as string,",
+				"          cobertura_departamentos as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> source1",
+				"source1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          id_estructura as string,",
+				"          id_padre as string,",
+				"          nivel as string,",
+				"          nombre as string,",
+				"          sigla as string,",
+				"          tipo as string,",
+				"          cobertura_departamentos as string",
+				"     ),",
+				"     partitionFileNames:['tbl_estructura_organizacional.csv'],",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> sink1"
+			]
+		}
+	}
+}
