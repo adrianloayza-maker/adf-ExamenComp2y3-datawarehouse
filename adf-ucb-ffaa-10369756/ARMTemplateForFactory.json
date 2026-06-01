@@ -2829,6 +2829,637 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/ds_bronze_tbl_efectivos')]"
 			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/df_silver_operaciones')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "ds_bronze_tbl_operaciones",
+								"type": "DatasetReference"
+							},
+							"name": "source1"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "ds_silver_operaciones",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [
+						{
+							"name": "derivedColumn1"
+						},
+						{
+							"name": "derivedColumn2"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          id_operacion as string,",
+						"          id_tipo as string,",
+						"          id_unidad_resp as string,",
+						"          id_zona as string,",
+						"          nombre_operacion as string,",
+						"          fecha_inicio as string,",
+						"          fecha_fin as string,",
+						"          efectivos_desplegados as string,",
+						"          vehiculos_utilizados as string,",
+						"          duracion_dias as string,",
+						"          costo_operacion as string,",
+						"          resultado as string,",
+						"          detenidos as string,",
+						"          area_km2 as string,",
+						"          incidentes as string,",
+						"          observaciones as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> source1",
+						"source1 derive(efectivos_desplegados = iif(\r",
+						"    lower(trim(efectivos_desplegados)) == 'trescientos',\r",
+						"    300,\r",
+						"    iif(\r",
+						"        lower(trim(efectivos_desplegados)) == 'doscientos',\r",
+						"        200,\r",
+						"        toInteger(regexReplace(efectivos_desplegados,'[^0-9]',''))\r",
+						"    )\r",
+						"),",
+						"          vehiculos_utilizados = iif(\r",
+						"    lower(trim(vehiculos_utilizados)) == 'veinte',\r",
+						"    20,\r",
+						"    toInteger(regexReplace(vehiculos_utilizados,'[^0-9]',''))\r",
+						"),",
+						"          duracion_dias = toInteger(\r",
+						"    regexReplace(duracion_dias,'[^0-9]','')\r",
+						"),",
+						"          costo_operacion = toInteger(\r",
+						"    regexReplace(duracion_dias,'[^0-9]','')\r",
+						"),",
+						"          resultado = upper(trim(resultado)),",
+						"          detenidos = iif(\r",
+						"    lower(trim(detenidos)) == 'ninguno',\r",
+						"    0,\r",
+						"    iif(\r",
+						"        lower(trim(detenidos)) == 'sin detenidos',\r",
+						"        0,\r",
+						"        iif(\r",
+						"            lower(trim(detenidos)) == 'cero',\r",
+						"            0,\r",
+						"            toInteger(regexReplace(detenidos,'[^0-9]',''))\r",
+						"        )\r",
+						"    )\r",
+						"),",
+						"          area_km2 = toInteger(\r",
+						"    regexReplace(area_km2,'[^0-9]','')\r",
+						"),",
+						"          incidentes = iif(\r",
+						"    lower(trim(incidentes)) == 'uno',\r",
+						"    1,\r",
+						"    toInteger(regexReplace(incidentes,'[^0-9]',''))\r",
+						"),",
+						"          fecha_inicio_normalizada_texto = replace(\r",
+						"replace(\r",
+						"replace(\r",
+						"replace(\r",
+						"replace(\r",
+						"replace(\r",
+						"replace(\r",
+						"replace(\r",
+						"replace(\r",
+						"replace(\r",
+						"replace(\r",
+						"replace(\r",
+						"replace(\r",
+						"replace(\r",
+						"replace(\r",
+						"replace(\r",
+						"replace(\r",
+						"replace(\r",
+						"replace(\r",
+						"replace(\r",
+						"replace(\r",
+						"replace(\r",
+						"replace(\r",
+						"replace(\r",
+						"upper(trim(fecha_inicio)),\r",
+						"'ENERO','01'),\r",
+						"'FEBRERO','02'),\r",
+						"'MARZO','03'),\r",
+						"'ABRIL','04'),\r",
+						"'MAYO','05'),\r",
+						"'JUNIO','06'),\r",
+						"'JULIO','07'),\r",
+						"'AGOSTO','08'),\r",
+						"'SEPTIEMBRE','09'),\r",
+						"'OCTUBRE','10'),\r",
+						"'NOVIEMBRE','11'),\r",
+						"'DICIEMBRE','12'),\r",
+						"'ENE','01'),\r",
+						"'FEB','02'),\r",
+						"'MAR','03'),\r",
+						"'ABR','04'),\r",
+						"'MAY','05'),\r",
+						"'JUN','06'),\r",
+						"'JUL','07'),\r",
+						"'AGO','08'),\r",
+						"'SEP','09'),\r",
+						"'OCT','10'),\r",
+						"'NOV','11'),\r",
+						"'DIC','12'),",
+						"          fecha_fin_normalizada_texto = replace(\r",
+						"replace(\r",
+						"replace(\r",
+						"replace(\r",
+						"replace(\r",
+						"replace(\r",
+						"replace(\r",
+						"replace(\r",
+						"replace(\r",
+						"replace(\r",
+						"replace(\r",
+						"replace(\r",
+						"replace(\r",
+						"replace(\r",
+						"replace(\r",
+						"replace(\r",
+						"replace(\r",
+						"replace(\r",
+						"replace(\r",
+						"replace(\r",
+						"replace(\r",
+						"replace(\r",
+						"replace(\r",
+						"replace(\r",
+						"upper(trim(fecha_fin)),\r",
+						"'ENERO','01'),\r",
+						"'FEBRERO','02'),\r",
+						"'MARZO','03'),\r",
+						"'ABRIL','04'),\r",
+						"'MAYO','05'),\r",
+						"'JUNIO','06'),\r",
+						"'JULIO','07'),\r",
+						"'AGOSTO','08'),\r",
+						"'SEPTIEMBRE','09'),\r",
+						"'OCTUBRE','10'),\r",
+						"'NOVIEMBRE','11'),\r",
+						"'DICIEMBRE','12'),\r",
+						"'ENE','01'),\r",
+						"'FEB','02'),\r",
+						"'MAR','03'),\r",
+						"'ABR','04'),\r",
+						"'MAY','05'),\r",
+						"'JUN','06'),\r",
+						"'JUL','07'),\r",
+						"'AGO','08'),\r",
+						"'SEP','09'),\r",
+						"'OCT','10'),\r",
+						"'NOV','11'),\r",
+						"'DIC','12')) ~> derivedColumn1",
+						"derivedColumn1 derive(fecha_inicio_limpia = coalesce(\r",
+						"    toDate(fecha_inicio_normalizada_texto,'yyyy-MM-dd'),\r",
+						"    toDate(fecha_inicio_normalizada_texto,'yyyy/MM/dd'),\r",
+						"    toDate(fecha_inicio_normalizada_texto,'yyyyMMdd'),\r",
+						"    toDate(fecha_inicio_normalizada_texto,'dd/MM/yyyy'),\r",
+						"    toDate(fecha_inicio_normalizada_texto,'MM-dd-yyyy'),\r",
+						"    toDate(fecha_inicio_normalizada_texto,'dd-MM-yyyy')\r",
+						"),",
+						"          fecha_fin_limpia = coalesce(\r",
+						"    toDate(fecha_fin_normalizada_texto,'yyyy-MM-dd'),\r",
+						"    toDate(fecha_fin_normalizada_texto,'yyyy/MM/dd'),\r",
+						"    toDate(fecha_fin_normalizada_texto,'yyyyMMdd'),\r",
+						"    toDate(fecha_fin_normalizada_texto,'dd/MM/yyyy'),\r",
+						"    toDate(fecha_fin_normalizada_texto,'MM-dd-yyyy'),\r",
+						"    toDate(fecha_fin_normalizada_texto,'dd-MM-yyyy')\r",
+						")) ~> derivedColumn2",
+						"derivedColumn2 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          id_operacion as string,",
+						"          id_tipo as string,",
+						"          id_unidad_resp as string,",
+						"          id_zona as string,",
+						"          nombre_operacion as string,",
+						"          fecha_inicio as string,",
+						"          fecha_fin as string,",
+						"          efectivos_desplegados as string,",
+						"          vehiculos_utilizados as string,",
+						"          duracion_dias as string,",
+						"          costo_operacion as string,",
+						"          resultado as string,",
+						"          detenidos as string,",
+						"          area_km2 as string,",
+						"          incidentes as string,",
+						"          observaciones as string",
+						"     ),",
+						"     partitionFileNames:['tbl_operacones.csv'],",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     partitionBy('hash', 1)) ~> sink1"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/ds_bronze_tbl_operaciones')]",
+				"[concat(variables('factoryId'), '/datasets/ds_silver_operaciones')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/df_silver_movimientos_personal')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "ds_bronze_tbl_movimientos_personal",
+								"type": "DatasetReference"
+							},
+							"name": "source1"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "ds_silver_movimientos_personal",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [
+						{
+							"name": "derivedColumn1"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          id_movimiento as string,",
+						"          id_efectivo as string,",
+						"          id_unidad_destino as string,",
+						"          id_rango as string,",
+						"          id_tipo as string,",
+						"          fecha_movimiento as string,",
+						"          antiguedad_anios as string,",
+						"          salario_mensual as string,",
+						"          observaciones as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> source1",
+						"source1 derive(fecha_movimiento = coalesce(\r",
+						"toDate(fecha_movimiento,'yyyy/MM/dd'),\r",
+						"toDate(fecha_movimiento,'yyyy-MM-dd'),\r",
+						"toDate(fecha_movimiento,'dd/MM/yyyy'),\r",
+						"toDate(fecha_movimiento,'dd-MM-yyyy'),\r",
+						"toDate(fecha_movimiento,'MM-dd-yyyy'),\r",
+						"toDate(fecha_movimiento,'yyyyMMdd')\r",
+						"),",
+						"          antiguedad_anios = toInteger(\r",
+						"replace(\r",
+						"replace(\r",
+						"replace(\r",
+						"replace(\r",
+						"replace(\r",
+						"replace(\r",
+						"replace(\r",
+						"replace(\r",
+						"replace(\r",
+						"replace(\r",
+						"replace(\r",
+						"replace(\r",
+						"replace(\r",
+						"replace(\r",
+						"replace(\r",
+						"replace(\r",
+						"replace(\r",
+						"replace(\r",
+						"replace(\r",
+						"replace(\r",
+						"replace(\r",
+						"lower(trim(antiguedad_anios)),\r",
+						"'aprox.',''),\r",
+						"'aprox',''),\r",
+						"'cero','0'),\r",
+						"'uno','1'),\r",
+						"'dos','2'),\r",
+						"'tres','3'),\r",
+						"'cuatro','4'),\r",
+						"'cinco','5'),\r",
+						"'seis','6'),\r",
+						"'siete','7'),\r",
+						"'ocho','8'),\r",
+						"'nueve','9'),\r",
+						"'diez','10'),\r",
+						"'once','11'),\r",
+						"'doce','12'),\r",
+						"'trece','13'),\r",
+						"'catorce','14'),\r",
+						"'quince','15'),\r",
+						"'años',''),\r",
+						"'a.',''),\r",
+						"',0','')\r",
+						"),",
+						"          salario_mensual = toDouble(\r",
+						"replace(\r",
+						"replace(\r",
+						"replace(\r",
+						"replace(\r",
+						"replace(\r",
+						"trim(salario_mensual),\r",
+						"'Bs.',''),\r",
+						"'Bs',''),\r",
+						"',',''),\r",
+						"' ',''),\r",
+						"'bs','')\r",
+						")) ~> derivedColumn1",
+						"derivedColumn1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          id_movimiento as string,",
+						"          id_efectivo as string,",
+						"          id_unidad_destino as string,",
+						"          id_rango as string,",
+						"          id_tipo as string,",
+						"          fecha_movimiento as string,",
+						"          antiguedad_anios as string,",
+						"          salario_mensual as string,",
+						"          observaciones as string",
+						"     ),",
+						"     partitionFileNames:['tbl_movimientos_personal.csv'],",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     partitionBy('hash', 1)) ~> sink1"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/ds_bronze_tbl_movimientos_personal')]",
+				"[concat(variables('factoryId'), '/datasets/ds_silver_movimientos_personal')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/df_silver_zonas')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "ds_bronze_tbl_zonas",
+								"type": "DatasetReference"
+							},
+							"name": "source1"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "ds_silver_zonas",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [],
+					"scriptLines": [
+						"source(output(",
+						"          id_zona as string,",
+						"          nombre as string,",
+						"          departamento as string,",
+						"          frontera_con as string,",
+						"          tipo_terreno as string,",
+						"          altitud_msnm as string,",
+						"          nivel_riesgo as string,",
+						"          acceso_carretero as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> source1",
+						"source1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          id_zona as string,",
+						"          nombre as string,",
+						"          departamento as string,",
+						"          frontera_con as string,",
+						"          tipo_terreno as string,",
+						"          altitud_msnm as string,",
+						"          nivel_riesgo as string,",
+						"          acceso_carretero as string",
+						"     ),",
+						"     partitionFileNames:['tbl_zonas.csv'],",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     partitionBy('hash', 1)) ~> sink1"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/ds_bronze_tbl_zonas')]",
+				"[concat(variables('factoryId'), '/datasets/ds_silver_zonas')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/df_silver_tipos_mvimiento')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "ds_bronze_tbl_tipos_movimento",
+								"type": "DatasetReference"
+							},
+							"name": "source1"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "ds_silver_tipos_movimiento",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [],
+					"scriptLines": [
+						"source(output(",
+						"          id_tipo as string,",
+						"          nombre as string,",
+						"          descripcion as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> source1",
+						"source1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          id_tipo as string,",
+						"          nombre as string,",
+						"          descripcion as string",
+						"     ),",
+						"     partitionFileNames:['tbl_tipos_movimiento.csv'],",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     partitionBy('hash', 1)) ~> sink1"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/ds_bronze_tbl_tipos_movimento')]",
+				"[concat(variables('factoryId'), '/datasets/ds_silver_tipos_movimiento')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/df_silver_tipos_operacion')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "ds_bronze_tbl_tipos_operacion",
+								"type": "DatasetReference"
+							},
+							"name": "source1"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "ds_silver_tipos_operacion",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [],
+					"scriptLines": [
+						"source(output(",
+						"          id_tipo as string,",
+						"          nombre as string,",
+						"          categoria as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> source1",
+						"source1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          id_tipo as string,",
+						"          nombre as string,",
+						"          categoria as string",
+						"     ),",
+						"     partitionFileNames:['tbl_tipos_operacion.csv'],",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     partitionBy('hash', 1)) ~> sink1"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/ds_bronze_tbl_tipos_operacion')]",
+				"[concat(variables('factoryId'), '/datasets/ds_silver_tipos_operacion')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/df_estructura_organizacional')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "ds_bronze_tbl_estructura_organizacional",
+								"type": "DatasetReference"
+							},
+							"name": "source1"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "ds_silver_estructura_organizacional",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [],
+					"scriptLines": [
+						"source(output(",
+						"          id_estructura as string,",
+						"          id_padre as string,",
+						"          nivel as string,",
+						"          nombre as string,",
+						"          sigla as string,",
+						"          tipo as string,",
+						"          cobertura_departamentos as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> source1",
+						"source1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          id_estructura as string,",
+						"          id_padre as string,",
+						"          nivel as string,",
+						"          nombre as string,",
+						"          sigla as string,",
+						"          tipo as string,",
+						"          cobertura_departamentos as string",
+						"     ),",
+						"     partitionFileNames:['tbl_estructura_organizacional.csv'],",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     partitionBy('hash', 1)) ~> sink1"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/ds_bronze_tbl_estructura_organizacional')]",
+				"[concat(variables('factoryId'), '/datasets/ds_silver_estructura_organizacional')]"
+			]
 		}
 	]
 }
