@@ -227,7 +227,7 @@
 				"          incidentes as string,",
 				"          observaciones as string",
 				"     ),",
-				"     partitionFileNames:['tbl_operacones.csv'],",
+				"     partitionFileNames:['tbl_operaciones.csv'],",
 				"     umask: 0022,",
 				"     preCommands: [],",
 				"     postCommands: [],",
