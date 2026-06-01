@@ -1,5 +1,5 @@
 {
-	"name": "df_silver_tipos_mvimiento",
+	"name": "df_silver_tipos_movimiento",
 	"properties": {
 		"type": "MappingDataFlow",
 		"typeProperties": {
