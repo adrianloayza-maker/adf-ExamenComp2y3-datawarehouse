@@ -2754,80 +2754,6 @@
 							},
 							"traceLevel": "Fine"
 						}
-					},
-					{
-						"name": "movimiento personal",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [
-							{
-								"activity": "zona operacion",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "df_gold_hechos_movimiento_personal",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"source1": {},
-									"sink1": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					},
-					{
-						"name": "operacion",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [
-							{
-								"activity": "movimiento personal",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "df_gold_hechos_operacion",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"source1": {},
-									"sink1": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
 					}
 				],
 				"policy": {
@@ -2842,9 +2768,7 @@
 				"[concat(variables('factoryId'), '/dataflows/df_gold_dim_tipo_operacion')]",
 				"[concat(variables('factoryId'), '/dataflows/df_gold_dim_tipos_movimiento')]",
 				"[concat(variables('factoryId'), '/dataflows/df_gold_dim_unidad')]",
-				"[concat(variables('factoryId'), '/dataflows/df_gold_dim_zona_operacion')]",
-				"[concat(variables('factoryId'), '/dataflows/df_gold_hechos_movimiento_personal')]",
-				"[concat(variables('factoryId'), '/dataflows/df_gold_hechos_operacion')]"
+				"[concat(variables('factoryId'), '/dataflows/df_gold_dim_zona_operacion')]"
 			]
 		}
 	]
