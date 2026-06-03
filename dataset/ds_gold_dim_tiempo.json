@@ -1,0 +1,48 @@
+{
+	"name": "ds_gold_dim_tiempo",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "db_dw_fuerzas_armadas",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "gold"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "fecha",
+				"type": "date"
+			},
+			{
+				"name": "anio",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "trimestre",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "mes",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "nombre_mes",
+				"type": "varchar"
+			},
+			{
+				"name": "dia",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "gold",
+			"table": "dim_tiempo"
+		}
+	}
+}

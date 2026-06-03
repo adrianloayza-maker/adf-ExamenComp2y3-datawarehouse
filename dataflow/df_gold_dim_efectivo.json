@@ -1,0 +1,87 @@
+{
+	"name": "df_gold_dim_efectivo",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ds_silver_efectivos",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ds_gold_dim_efectivo",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [],
+			"scriptLines": [
+				"source(output(",
+				"          id_efectivo as string,",
+				"          id_especialidad as string,",
+				"          id_unidad_actual as string,",
+				"          id_rango_actual as string,",
+				"          nombre as string,",
+				"          ci as string,",
+				"          fecha_nacimiento as string,",
+				"          genero as string,",
+				"          departamento_origen as string,",
+				"          fecha_ingreso as string,",
+				"          estado as string,",
+				"          salario_mensual as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> source1",
+				"source1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          id_efectivo as integer,",
+				"          id_especialidad as integer,",
+				"          id_unidad_actual as integer,",
+				"          id_rango_actual as integer,",
+				"          nombre as string,",
+				"          ci as string,",
+				"          fecha_nacimiento as date,",
+				"          genero as string,",
+				"          departamento_origen as string,",
+				"          fecha_ingreso as date,",
+				"          estado as string,",
+				"          salario_mensual as decimal(18,2)",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          id_efectivo,",
+				"          id_especialidad,",
+				"          id_unidad_actual,",
+				"          id_rango_actual,",
+				"          nombre,",
+				"          ci,",
+				"          fecha_nacimiento,",
+				"          genero,",
+				"          departamento_origen,",
+				"          fecha_ingreso,",
+				"          estado,",
+				"          salario_mensual",
+				"     ),",
+				"     partitionBy('hash', 1),",
+				"     preCommands: [],",
+				"     postCommands: []) ~> sink1"
+			]
+		}
+	}
+}

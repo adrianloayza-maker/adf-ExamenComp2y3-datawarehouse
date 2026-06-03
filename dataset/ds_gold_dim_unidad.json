@@ -1,0 +1,50 @@
+{
+	"name": "ds_gold_dim_unidad",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "db_dw_fuerzas_armadas",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "gold"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "id_unidad",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "id_brigada",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "nombre",
+				"type": "varchar"
+			},
+			{
+				"name": "codigo",
+				"type": "varchar"
+			},
+			{
+				"name": "ciudad",
+				"type": "varchar"
+			},
+			{
+				"name": "departamento",
+				"type": "varchar"
+			},
+			{
+				"name": "tipo_cuartel",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "gold",
+			"table": "dim_unidad"
+		}
+	}
+}
