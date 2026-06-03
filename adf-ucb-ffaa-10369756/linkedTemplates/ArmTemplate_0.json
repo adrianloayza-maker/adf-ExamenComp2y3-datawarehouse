@@ -15,6 +15,10 @@
 			"type": "secureString",
 			"metadata": "Cadena protegida para \"connectionString\"de \"datalake_fffaa\""
 		},
+		"db_dw_fuerzas_armadas_password": {
+			"type": "secureString",
+			"metadata": "Cadena protegida para \"password\"de \"db_dw_fuerzas_armadas\""
+		},
 		"db_fuerzas_armadas_password": {
 			"type": "secureString",
 			"metadata": "Cadena protegida para \"password\"de \"db_fuerzas_armadas\""
@@ -22,6 +26,18 @@
 		"datalake_ffaa_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://saffaa10369756.dfs.core.windows.net/"
+		},
+		"db_dw_fuerzas_armadas_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "sql-ucb-ffaa-dw-10369756.database.windows.net"
+		},
+		"db_dw_fuerzas_armadas_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "dw_fuerzas_armadas"
+		},
+		"db_dw_fuerzas_armadas_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "adrian"
 		},
 		"db_fuerzas_armadas_properties_typeProperties_server": {
 			"type": "string",
@@ -71,6 +87,28 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/db_dw_fuerzas_armadas')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"server": "[parameters('db_dw_fuerzas_armadas_properties_typeProperties_server')]",
+					"database": "[parameters('db_dw_fuerzas_armadas_properties_typeProperties_database')]",
+					"encrypt": "mandatory",
+					"trustServerCertificate": false,
+					"authenticationType": "SQL",
+					"userName": "[parameters('db_dw_fuerzas_armadas_properties_typeProperties_userName')]",
+					"password": {
+						"type": "SecureString",
+						"value": "[parameters('db_dw_fuerzas_armadas_password')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/db_fuerzas_armadas')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -93,616 +131,556 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/ds_bronze_tbl_efectivos')]",
+			"name": "[concat(parameters('factoryName'), '/ds_gold_dim_efectivo')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"linkedServiceName": {
-					"referenceName": "datalake_ffaa",
+					"referenceName": "db_dw_fuerzas_armadas",
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "bronze"
+					"name": "gold"
 				},
 				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileName": "tbl_efectivos.csv",
-						"fileSystem": "bronze"
-					},
-					"columnDelimiter": ",",
-					"encodingName": "ISO-8859-1",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
+				"type": "AzureSqlTable",
 				"schema": [
 					{
 						"name": "id_efectivo",
-						"type": "String"
+						"type": "int",
+						"precision": 10
 					},
 					{
 						"name": "id_especialidad",
-						"type": "String"
+						"type": "int",
+						"precision": 10
 					},
 					{
 						"name": "id_unidad_actual",
-						"type": "String"
+						"type": "int",
+						"precision": 10
 					},
 					{
 						"name": "id_rango_actual",
-						"type": "String"
+						"type": "int",
+						"precision": 10
 					},
 					{
 						"name": "nombre",
-						"type": "String"
+						"type": "varchar"
 					},
 					{
 						"name": "ci",
-						"type": "String"
+						"type": "varchar"
 					},
 					{
 						"name": "fecha_nacimiento",
-						"type": "String"
+						"type": "date"
 					},
 					{
 						"name": "genero",
-						"type": "String"
+						"type": "varchar"
 					},
 					{
 						"name": "departamento_origen",
-						"type": "String"
+						"type": "varchar"
 					},
 					{
 						"name": "fecha_ingreso",
-						"type": "String"
+						"type": "date"
 					},
 					{
 						"name": "estado",
-						"type": "String"
+						"type": "varchar"
 					},
 					{
 						"name": "salario_mensual",
-						"type": "String"
+						"type": "decimal",
+						"precision": 18,
+						"scale": 2
 					}
-				]
+				],
+				"typeProperties": {
+					"schema": "gold",
+					"table": "dim_efectivo"
+				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/datalake_ffaa')]"
+				"[concat(variables('factoryId'), '/linkedServices/db_dw_fuerzas_armadas')]"
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/ds_bronze_tbl_especialidades')]",
+			"name": "[concat(parameters('factoryName'), '/ds_gold_dim_especialidad')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"linkedServiceName": {
-					"referenceName": "datalake_ffaa",
+					"referenceName": "db_dw_fuerzas_armadas",
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "bronze"
+					"name": "gold"
 				},
 				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileName": "tbl_especialidades.csv",
-						"fileSystem": "bronze"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
+				"type": "AzureSqlTable",
 				"schema": [
 					{
 						"name": "id_especialidad",
-						"type": "String"
+						"type": "int",
+						"precision": 10
 					},
 					{
 						"name": "nombre",
-						"type": "String"
+						"type": "varchar"
 					},
 					{
 						"name": "area",
-						"type": "String"
+						"type": "varchar"
 					}
-				]
+				],
+				"typeProperties": {
+					"schema": "gold",
+					"table": "dim_especialidad"
+				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/datalake_ffaa')]"
+				"[concat(variables('factoryId'), '/linkedServices/db_dw_fuerzas_armadas')]"
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/ds_bronze_tbl_estructura_organizacional')]",
+			"name": "[concat(parameters('factoryName'), '/ds_gold_dim_rango')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"linkedServiceName": {
-					"referenceName": "datalake_ffaa",
+					"referenceName": "db_dw_fuerzas_armadas",
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "bronze"
+					"name": "gold"
 				},
 				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileName": "tbl_estructura_organizacional.csv",
-						"fileSystem": "bronze"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "id_estructura",
-						"type": "String"
-					},
-					{
-						"name": "id_padre",
-						"type": "String"
-					},
-					{
-						"name": "nivel",
-						"type": "String"
-					},
-					{
-						"name": "nombre",
-						"type": "String"
-					},
-					{
-						"name": "sigla",
-						"type": "String"
-					},
-					{
-						"name": "tipo",
-						"type": "String"
-					},
-					{
-						"name": "cobertura_departamentos",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/datalake_ffaa')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ds_bronze_tbl_movimientos_personal')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "datalake_ffaa",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "bronze"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileName": "tbl_movimientos_personal.csv",
-						"fileSystem": "bronze"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "id_movimiento",
-						"type": "String"
-					},
-					{
-						"name": "id_efectivo",
-						"type": "String"
-					},
-					{
-						"name": "id_unidad_destino",
-						"type": "String"
-					},
-					{
-						"name": "id_rango",
-						"type": "String"
-					},
-					{
-						"name": "id_tipo",
-						"type": "String"
-					},
-					{
-						"name": "fecha_movimiento",
-						"type": "String"
-					},
-					{
-						"name": "antiguedad_anios",
-						"type": "String"
-					},
-					{
-						"name": "salario_mensual",
-						"type": "String"
-					},
-					{
-						"name": "observaciones",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/datalake_ffaa')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ds_bronze_tbl_operaciones')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "datalake_ffaa",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "bronze"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileName": "tbl_operaciones.csv",
-						"fileSystem": "bronze"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "id_operacion",
-						"type": "String"
-					},
-					{
-						"name": "id_tipo",
-						"type": "String"
-					},
-					{
-						"name": "id_unidad_resp",
-						"type": "String"
-					},
-					{
-						"name": "id_zona",
-						"type": "String"
-					},
-					{
-						"name": "nombre_operacion",
-						"type": "String"
-					},
-					{
-						"name": "fecha_inicio",
-						"type": "String"
-					},
-					{
-						"name": "fecha_fin",
-						"type": "String"
-					},
-					{
-						"name": "efectivos_desplegados",
-						"type": "String"
-					},
-					{
-						"name": "vehiculos_utilizados",
-						"type": "String"
-					},
-					{
-						"name": "duracion_dias",
-						"type": "String"
-					},
-					{
-						"name": "costo_operacion",
-						"type": "String"
-					},
-					{
-						"name": "resultado",
-						"type": "String"
-					},
-					{
-						"name": "detenidos",
-						"type": "String"
-					},
-					{
-						"name": "area_km2",
-						"type": "String"
-					},
-					{
-						"name": "incidentes",
-						"type": "String"
-					},
-					{
-						"name": "observaciones",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/datalake_ffaa')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ds_bronze_tbl_rangos')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "datalake_ffaa",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "bronze"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileName": "tbl_rangos.csv",
-						"fileSystem": "bronze"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
+				"type": "AzureSqlTable",
 				"schema": [
 					{
 						"name": "id_rango",
-						"type": "String"
+						"type": "int",
+						"precision": 10
 					},
 					{
 						"name": "nombre",
-						"type": "String"
+						"type": "varchar"
 					},
 					{
 						"name": "categoria",
-						"type": "String"
+						"type": "varchar"
 					},
 					{
 						"name": "nivel_jerarquico",
-						"type": "String"
+						"type": "int",
+						"precision": 10
 					},
 					{
 						"name": "abreviatura",
-						"type": "String"
+						"type": "varchar"
 					}
-				]
+				],
+				"typeProperties": {
+					"schema": "gold",
+					"table": "dim_rango"
+				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/datalake_ffaa')]"
+				"[concat(variables('factoryId'), '/linkedServices/db_dw_fuerzas_armadas')]"
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/ds_bronze_tbl_tipos_movimento')]",
+			"name": "[concat(parameters('factoryName'), '/ds_gold_dim_tiempo')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"linkedServiceName": {
-					"referenceName": "datalake_ffaa",
+					"referenceName": "db_dw_fuerzas_armadas",
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "bronze"
+					"name": "gold"
 				},
 				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileName": "tbl_tipos_movimiento.csv",
-						"fileSystem": "bronze"
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "fecha",
+						"type": "date"
 					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
+					{
+						"name": "anio",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "trimestre",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "mes",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "nombre_mes",
+						"type": "varchar"
+					},
+					{
+						"name": "dia",
+						"type": "int",
+						"precision": 10
+					}
+				],
+				"typeProperties": {
+					"schema": "gold",
+					"table": "dim_tiempo"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/db_dw_fuerzas_armadas')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_gold_dim_tipo_movimiento')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "db_dw_fuerzas_armadas",
+					"type": "LinkedServiceReference"
 				},
+				"folder": {
+					"name": "gold"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
 				"schema": [
 					{
 						"name": "id_tipo",
-						"type": "String"
+						"type": "int",
+						"precision": 10
 					},
 					{
 						"name": "nombre",
-						"type": "String"
+						"type": "varchar"
 					},
 					{
 						"name": "descripcion",
-						"type": "String"
+						"type": "varchar"
 					}
-				]
+				],
+				"typeProperties": {
+					"schema": "gold",
+					"table": "dim_tipo_movimiento"
+				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/datalake_ffaa')]"
+				"[concat(variables('factoryId'), '/linkedServices/db_dw_fuerzas_armadas')]"
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/ds_bronze_tbl_tipos_operacion')]",
+			"name": "[concat(parameters('factoryName'), '/ds_gold_dim_tipo_operacion')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"linkedServiceName": {
-					"referenceName": "datalake_ffaa",
+					"referenceName": "db_dw_fuerzas_armadas",
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "bronze"
+					"name": "gold"
 				},
 				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileName": "tbl_tipos_operacion.csv",
-						"fileSystem": "bronze"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
+				"type": "AzureSqlTable",
 				"schema": [
 					{
 						"name": "id_tipo",
-						"type": "String"
+						"type": "int",
+						"precision": 10
 					},
 					{
 						"name": "nombre",
-						"type": "String"
+						"type": "varchar"
 					},
 					{
 						"name": "categoria",
-						"type": "String"
+						"type": "varchar"
 					}
-				]
+				],
+				"typeProperties": {
+					"schema": "gold",
+					"table": "dim_tipo_operacion"
+				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/datalake_ffaa')]"
+				"[concat(variables('factoryId'), '/linkedServices/db_dw_fuerzas_armadas')]"
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/ds_bronze_tbl_unidades')]",
+			"name": "[concat(parameters('factoryName'), '/ds_gold_dim_unidad')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"linkedServiceName": {
-					"referenceName": "datalake_ffaa",
+					"referenceName": "db_dw_fuerzas_armadas",
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "bronze"
+					"name": "gold"
 				},
 				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileName": "tbl_unidades.csv",
-						"fileSystem": "bronze"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
+				"type": "AzureSqlTable",
 				"schema": [
 					{
 						"name": "id_unidad",
-						"type": "String"
+						"type": "int",
+						"precision": 10
 					},
 					{
 						"name": "id_brigada",
-						"type": "String"
+						"type": "int",
+						"precision": 10
 					},
 					{
 						"name": "nombre",
-						"type": "String"
+						"type": "varchar"
 					},
 					{
 						"name": "codigo",
-						"type": "String"
+						"type": "varchar"
 					},
 					{
 						"name": "ciudad",
-						"type": "String"
+						"type": "varchar"
 					},
 					{
 						"name": "departamento",
-						"type": "String"
+						"type": "varchar"
 					},
 					{
 						"name": "tipo_cuartel",
-						"type": "String"
+						"type": "varchar"
 					}
-				]
+				],
+				"typeProperties": {
+					"schema": "gold",
+					"table": "dim_unidad"
+				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/datalake_ffaa')]"
+				"[concat(variables('factoryId'), '/linkedServices/db_dw_fuerzas_armadas')]"
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/ds_bronze_tbl_zonas')]",
+			"name": "[concat(parameters('factoryName'), '/ds_gold_dim_zona_operacion')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"linkedServiceName": {
-					"referenceName": "datalake_ffaa",
+					"referenceName": "db_dw_fuerzas_armadas",
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "bronze"
+					"name": "gold"
 				},
 				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileName": "tbl_zonas.csv",
-						"fileSystem": "bronze"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
+				"type": "AzureSqlTable",
 				"schema": [
 					{
 						"name": "id_zona",
-						"type": "String"
+						"type": "int",
+						"precision": 10
 					},
 					{
 						"name": "nombre",
-						"type": "String"
+						"type": "varchar"
 					},
 					{
 						"name": "departamento",
-						"type": "String"
+						"type": "varchar"
 					},
 					{
 						"name": "frontera_con",
-						"type": "String"
+						"type": "varchar"
 					},
 					{
 						"name": "tipo_terreno",
-						"type": "String"
+						"type": "varchar"
 					},
 					{
 						"name": "altitud_msnm",
-						"type": "String"
+						"type": "int",
+						"precision": 10
 					},
 					{
 						"name": "nivel_riesgo",
-						"type": "String"
-					},
-					{
-						"name": "acceso_carretero",
-						"type": "String"
+						"type": "varchar"
 					}
-				]
+				],
+				"typeProperties": {
+					"schema": "gold",
+					"table": "dim_zona_operacion"
+				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/datalake_ffaa')]"
+				"[concat(variables('factoryId'), '/linkedServices/db_dw_fuerzas_armadas')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_gold_hechos_movimientos_personal')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "db_dw_fuerzas_armadas",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "gold"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "id_movimiento",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "id_efectivo",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "id_unidad_destino",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "id_rango",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "id_tipo_movimiento",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "fecha_movimiento",
+						"type": "date"
+					},
+					{
+						"name": "antiguedad_anios",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "salario_mensual",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 2
+					}
+				],
+				"typeProperties": {
+					"schema": "gold",
+					"table": "hechos_movimiento_personal"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/db_dw_fuerzas_armadas')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_gold_hechos_operacion')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "db_dw_fuerzas_armadas",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "gold"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "id_operacion",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "id_tipo_operacion",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "id_unidad_resp",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "id_zona",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "fecha_inicio",
+						"type": "date"
+					},
+					{
+						"name": "fecha_fin",
+						"type": "date"
+					},
+					{
+						"name": "efectivos_desplegados",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "vehiculos_utilizados",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "duracion_dias",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "costo_operacion",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 2
+					},
+					{
+						"name": "area_km2",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 2
+					},
+					{
+						"name": "incidentes_reportados",
+						"type": "int",
+						"precision": 10
+					}
+				],
+				"typeProperties": {
+					"schema": "gold",
+					"table": "hechos_operacion"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/db_dw_fuerzas_armadas')]"
 			]
 		},
 		{
@@ -1097,50 +1075,6 @@
 					},
 					{
 						"name": "abreviatura",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/datalake_ffaa')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ds_silver_tipos_movimiento')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "datalake_ffaa",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "silver"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileName": "tbl_tipos_movimiento.csv",
-						"fileSystem": "silver"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "id_tipo",
-						"type": "String"
-					},
-					{
-						"name": "nombre",
-						"type": "String"
-					},
-					{
-						"name": "descripcion",
 						"type": "String"
 					}
 				]

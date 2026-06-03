@@ -13,163 +13,27 @@
 	},
 	"resources": [
 		{
-			"name": "[concat(parameters('factoryName'), '/df_silver_movimientos_personal')]",
+			"name": "[concat(parameters('factoryName'), '/df_gold_dim_zona_operacion')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"type": "MappingDataFlow",
 				"typeProperties": {
 					"sources": [
-						{
-							"dataset": {
-								"referenceName": "ds_bronze_tbl_movimientos_personal",
-								"type": "DatasetReference"
-							},
-							"name": "source1"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "ds_silver_movimientos_personal",
-								"type": "DatasetReference"
-							},
-							"name": "sink1"
-						}
-					],
-					"transformations": [
-						{
-							"name": "derivedColumn1"
-						}
-					],
-					"scriptLines": [
-						"source(output(",
-						"          id_movimiento as string,",
-						"          id_efectivo as string,",
-						"          id_unidad_destino as string,",
-						"          id_rango as string,",
-						"          id_tipo as string,",
-						"          fecha_movimiento as string,",
-						"          antiguedad_anios as string,",
-						"          salario_mensual as string,",
-						"          observaciones as string",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false) ~> source1",
-						"source1 derive(fecha_movimiento = coalesce(\r",
-						"toDate(fecha_movimiento,'yyyy/MM/dd'),\r",
-						"toDate(fecha_movimiento,'yyyy-MM-dd'),\r",
-						"toDate(fecha_movimiento,'dd/MM/yyyy'),\r",
-						"toDate(fecha_movimiento,'dd-MM-yyyy'),\r",
-						"toDate(fecha_movimiento,'MM-dd-yyyy'),\r",
-						"toDate(fecha_movimiento,'yyyyMMdd')\r",
-						"),",
-						"          antiguedad_anios = toInteger(\r",
-						"replace(\r",
-						"replace(\r",
-						"replace(\r",
-						"replace(\r",
-						"replace(\r",
-						"replace(\r",
-						"replace(\r",
-						"replace(\r",
-						"replace(\r",
-						"replace(\r",
-						"replace(\r",
-						"replace(\r",
-						"replace(\r",
-						"replace(\r",
-						"replace(\r",
-						"replace(\r",
-						"replace(\r",
-						"replace(\r",
-						"replace(\r",
-						"replace(\r",
-						"replace(\r",
-						"lower(trim(antiguedad_anios)),\r",
-						"'aprox.',''),\r",
-						"'aprox',''),\r",
-						"'cero','0'),\r",
-						"'uno','1'),\r",
-						"'dos','2'),\r",
-						"'tres','3'),\r",
-						"'cuatro','4'),\r",
-						"'cinco','5'),\r",
-						"'seis','6'),\r",
-						"'siete','7'),\r",
-						"'ocho','8'),\r",
-						"'nueve','9'),\r",
-						"'diez','10'),\r",
-						"'once','11'),\r",
-						"'doce','12'),\r",
-						"'trece','13'),\r",
-						"'catorce','14'),\r",
-						"'quince','15'),\r",
-						"'años',''),\r",
-						"'a.',''),\r",
-						"',0','')\r",
-						"),",
-						"          salario_mensual = toDouble(\r",
-						"replace(\r",
-						"replace(\r",
-						"replace(\r",
-						"replace(\r",
-						"replace(\r",
-						"trim(salario_mensual),\r",
-						"'Bs.',''),\r",
-						"'Bs',''),\r",
-						"',',''),\r",
-						"' ',''),\r",
-						"'bs','')\r",
-						")) ~> derivedColumn1",
-						"derivedColumn1 sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     input(",
-						"          id_movimiento as string,",
-						"          id_efectivo as string,",
-						"          id_unidad_destino as string,",
-						"          id_rango as string,",
-						"          id_tipo as string,",
-						"          fecha_movimiento as string,",
-						"          antiguedad_anios as string,",
-						"          salario_mensual as string,",
-						"          observaciones as string",
-						"     ),",
-						"     partitionFileNames:['tbl_movimientos_personal.csv'],",
-						"     umask: 0022,",
-						"     preCommands: [],",
-						"     postCommands: [],",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     partitionBy('hash', 1)) ~> sink1"
-					]
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/df_silver_zonas')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "ds_bronze_tbl_zonas",
-								"type": "DatasetReference"
-							},
-							"name": "source1"
-						}
-					],
-					"sinks": [
 						{
 							"dataset": {
 								"referenceName": "ds_silver_zonas",
 								"type": "DatasetReference"
 							},
+							"name": "source1"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "ds_gold_dim_zona_operacion",
+								"type": "DatasetReference"
+							},
 							"name": "sink1"
 						}
 					],
@@ -191,29 +55,32 @@
 						"source1 sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     input(",
-						"          id_zona as string,",
+						"          id_zona as integer,",
 						"          nombre as string,",
 						"          departamento as string,",
 						"          frontera_con as string,",
 						"          tipo_terreno as string,",
-						"          altitud_msnm as string,",
-						"          nivel_riesgo as string,",
-						"          acceso_carretero as string",
+						"          altitud_msnm as integer,",
+						"          nivel_riesgo as string",
 						"     ),",
-						"     partitionFileNames:['tbl_zonas.csv'],",
-						"     umask: 0022,",
-						"     preCommands: [],",
-						"     postCommands: [],",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
 						"     skipDuplicateMapInputs: true,",
 						"     skipDuplicateMapOutputs: true,",
-						"     partitionBy('hash', 1)) ~> sink1"
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     partitionBy('hash', 1),",
+						"     preCommands: [],",
+						"     postCommands: []) ~> sink1"
 					]
 				}
 			},
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/df_silver_tipos_mvimiento')]",
+			"name": "[concat(parameters('factoryName'), '/df_gold_hechos_movimiento_personal')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -222,7 +89,7 @@
 					"sources": [
 						{
 							"dataset": {
-								"referenceName": "ds_bronze_tbl_tipos_movimento",
+								"referenceName": "ds_silver_movimientos_personal",
 								"type": "DatasetReference"
 							},
 							"name": "source1"
@@ -231,7 +98,7 @@
 					"sinks": [
 						{
 							"dataset": {
-								"referenceName": "ds_silver_tipos_movimiento",
+								"referenceName": "ds_gold_hechos_movimientos_personal",
 								"type": "DatasetReference"
 							},
 							"name": "sink1"
@@ -240,9 +107,15 @@
 					"transformations": [],
 					"scriptLines": [
 						"source(output(",
+						"          id_movimiento as string,",
+						"          id_efectivo as string,",
+						"          id_unidad_destino as string,",
+						"          id_rango as string,",
 						"          id_tipo as string,",
-						"          nombre as string,",
-						"          descripcion as string",
+						"          fecha_movimiento as string,",
+						"          antiguedad_anios as string,",
+						"          salario_mensual as string,",
+						"          observaciones as string",
 						"     ),",
 						"     allowSchemaDrift: true,",
 						"     validateSchema: false,",
@@ -250,24 +123,33 @@
 						"source1 sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     input(",
-						"          id_tipo as string,",
-						"          nombre as string,",
-						"          descripcion as string",
+						"          id_movimiento as integer,",
+						"          id_efectivo as integer,",
+						"          id_unidad_destino as integer,",
+						"          id_rango as integer,",
+						"          id_tipo_movimiento as integer,",
+						"          fecha_movimiento as date,",
+						"          antiguedad_anios as integer,",
+						"          salario_mensual as decimal(18,2)",
 						"     ),",
-						"     partitionFileNames:['tbl_tipos_movimiento.csv'],",
-						"     umask: 0022,",
-						"     preCommands: [],",
-						"     postCommands: [],",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
 						"     skipDuplicateMapInputs: true,",
 						"     skipDuplicateMapOutputs: true,",
-						"     partitionBy('hash', 1)) ~> sink1"
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     partitionBy('hash', 1),",
+						"     preCommands: [],",
+						"     postCommands: []) ~> sink1"
 					]
 				}
 			},
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/df_silver_tipos_operacion')]",
+			"name": "[concat(parameters('factoryName'), '/df_gold_hechos_operacion')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -276,7 +158,7 @@
 					"sources": [
 						{
 							"dataset": {
-								"referenceName": "ds_bronze_tbl_tipos_operacion",
+								"referenceName": "ds_silver_operaciones",
 								"type": "DatasetReference"
 							},
 							"name": "source1"
@@ -285,7 +167,7 @@
 					"sinks": [
 						{
 							"dataset": {
-								"referenceName": "ds_silver_tipos_operacion",
+								"referenceName": "ds_gold_hechos_operacion",
 								"type": "DatasetReference"
 							},
 							"name": "sink1"
@@ -294,9 +176,22 @@
 					"transformations": [],
 					"scriptLines": [
 						"source(output(",
+						"          id_operacion as string,",
 						"          id_tipo as string,",
-						"          nombre as string,",
-						"          categoria as string",
+						"          id_unidad_resp as string,",
+						"          id_zona as string,",
+						"          nombre_operacion as string,",
+						"          fecha_inicio as string,",
+						"          fecha_fin as string,",
+						"          efectivos_desplegados as string,",
+						"          vehiculos_utilizados as string,",
+						"          duracion_dias as string,",
+						"          costo_operacion as string,",
+						"          resultado as string,",
+						"          detenidos as string,",
+						"          area_km2 as string,",
+						"          incidentes as string,",
+						"          observaciones as string",
 						"     ),",
 						"     allowSchemaDrift: true,",
 						"     validateSchema: false,",
@@ -304,125 +199,32 @@
 						"source1 sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     input(",
-						"          id_tipo as string,",
-						"          nombre as string,",
-						"          categoria as string",
+						"          id_operacion as integer,",
+						"          id_tipo_operacion as integer,",
+						"          id_unidad_resp as integer,",
+						"          id_zona as integer,",
+						"          fecha_inicio as date,",
+						"          fecha_fin as date,",
+						"          efectivos_desplegados as integer,",
+						"          vehiculos_utilizados as integer,",
+						"          duracion_dias as integer,",
+						"          costo_operacion as decimal(18,2),",
+						"          area_km2 as decimal(18,2),",
+						"          incidentes_reportados as integer",
 						"     ),",
-						"     partitionFileNames:['tbl_tipos_operacion.csv'],",
-						"     umask: 0022,",
-						"     preCommands: [],",
-						"     postCommands: [],",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
 						"     skipDuplicateMapInputs: true,",
 						"     skipDuplicateMapOutputs: true,",
-						"     partitionBy('hash', 1)) ~> sink1"
-					]
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/df_estructura_organizacional')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "ds_bronze_tbl_estructura_organizacional",
-								"type": "DatasetReference"
-							},
-							"name": "source1"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "ds_silver_estructura_organizacional",
-								"type": "DatasetReference"
-							},
-							"name": "sink1"
-						}
-					],
-					"transformations": [],
-					"scriptLines": [
-						"source(output(",
-						"          id_estructura as string,",
-						"          id_padre as string,",
-						"          nivel as string,",
-						"          nombre as string,",
-						"          sigla as string,",
-						"          tipo as string,",
-						"          cobertura_departamentos as string",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false) ~> source1",
-						"source1 sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     input(",
-						"          id_estructura as string,",
-						"          id_padre as string,",
-						"          nivel as string,",
-						"          nombre as string,",
-						"          sigla as string,",
-						"          tipo as string,",
-						"          cobertura_departamentos as string",
-						"     ),",
-						"     partitionFileNames:['tbl_estructura_organizacional.csv'],",
-						"     umask: 0022,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     partitionBy('hash', 1),",
 						"     preCommands: [],",
-						"     postCommands: [],",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     partitionBy('hash', 1)) ~> sink1"
+						"     postCommands: []) ~> sink1"
 					]
 				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/pl_silver_efectivos')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Data flow1",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "df_silver_rangos",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"source1": {},
-									"sink1": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"annotations": []
 			},
 			"dependsOn": []
 		}

@@ -11,11 +11,23 @@
 		"datalake_fffaa_connectionString": {
 			"value": ""
 		},
+		"db_dw_fuerzas_armadas_password": {
+			"value": ""
+		},
 		"db_fuerzas_armadas_password": {
 			"value": ""
 		},
 		"datalake_ffaa_properties_typeProperties_url": {
 			"value": "https://saffaa10369756.dfs.core.windows.net/"
+		},
+		"db_dw_fuerzas_armadas_properties_typeProperties_server": {
+			"value": "sql-ucb-ffaa-dw-10369756.database.windows.net"
+		},
+		"db_dw_fuerzas_armadas_properties_typeProperties_database": {
+			"value": "dw_fuerzas_armadas"
+		},
+		"db_dw_fuerzas_armadas_properties_typeProperties_userName": {
+			"value": "adrian"
 		},
 		"db_fuerzas_armadas_properties_typeProperties_server": {
 			"value": "server02-fuerzas-armadas-bolivia.database.windows.net"

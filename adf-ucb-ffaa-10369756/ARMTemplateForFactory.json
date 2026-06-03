@@ -15,6 +15,10 @@
 			"type": "secureString",
 			"metadata": "Cadena protegida para \"connectionString\"de \"datalake_fffaa\""
 		},
+		"db_dw_fuerzas_armadas_password": {
+			"type": "secureString",
+			"metadata": "Cadena protegida para \"password\"de \"db_dw_fuerzas_armadas\""
+		},
 		"db_fuerzas_armadas_password": {
 			"type": "secureString",
 			"metadata": "Cadena protegida para \"password\"de \"db_fuerzas_armadas\""
@@ -22,6 +26,18 @@
 		"datalake_ffaa_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://saffaa10369756.dfs.core.windows.net/"
+		},
+		"db_dw_fuerzas_armadas_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "sql-ucb-ffaa-dw-10369756.database.windows.net"
+		},
+		"db_dw_fuerzas_armadas_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "dw_fuerzas_armadas"
+		},
+		"db_dw_fuerzas_armadas_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "adrian"
 		},
 		"db_fuerzas_armadas_properties_typeProperties_server": {
 			"type": "string",
@@ -41,1174 +57,556 @@
 	},
 	"resources": [
 		{
-			"name": "[concat(parameters('factoryName'), '/pl_oltp_bronze')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "cp_tbl_estructura_organizacional",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "AzureSqlSource",
-								"queryTimeout": "02:00:00",
-								"partitionOption": "None"
-							},
-							"sink": {
-								"type": "DelimitedTextSink",
-								"storeSettings": {
-									"type": "AzureBlobFSWriteSettings"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextWriteSettings",
-									"quoteAllText": true,
-									"fileExtension": ".txt"
-								}
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "ds_tbl_estructura_organizacional",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "ds_bronze_tbl_estructura_organizacional",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					},
-					{
-						"name": "Copy data1",
-						"type": "Copy",
-						"dependsOn": [
-							{
-								"activity": "cp_tbl_estructura_organizacional",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "AzureSqlSource",
-								"queryTimeout": "02:00:00",
-								"partitionOption": "None"
-							},
-							"sink": {
-								"type": "DelimitedTextSink",
-								"storeSettings": {
-									"type": "AzureBlobFSWriteSettings"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextWriteSettings",
-									"quoteAllText": true,
-									"fileExtension": ".txt"
-								}
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "ds_tbl_movimientos_personal",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "ds_bronze_tbl_movimientos_personal",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					},
-					{
-						"name": "Copy data2",
-						"type": "Copy",
-						"dependsOn": [
-							{
-								"activity": "Copy data1",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "AzureSqlSource",
-								"queryTimeout": "02:00:00",
-								"partitionOption": "None"
-							},
-							"sink": {
-								"type": "DelimitedTextSink",
-								"storeSettings": {
-									"type": "AzureBlobFSWriteSettings"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextWriteSettings",
-									"quoteAllText": true,
-									"fileExtension": ".txt"
-								}
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "ds_tbl_operaciones",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "ds_bronze_tbl_operaciones",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					},
-					{
-						"name": "Copy data3",
-						"type": "Copy",
-						"dependsOn": [
-							{
-								"activity": "Copy data2",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "AzureSqlSource",
-								"queryTimeout": "02:00:00",
-								"partitionOption": "None"
-							},
-							"sink": {
-								"type": "DelimitedTextSink",
-								"storeSettings": {
-									"type": "AzureBlobFSWriteSettings"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextWriteSettings",
-									"quoteAllText": true,
-									"fileExtension": ".txt"
-								}
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "ds_tbl_rangos",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "ds_bronze_tbl_rangos",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					},
-					{
-						"name": "Copy data4",
-						"type": "Copy",
-						"dependsOn": [
-							{
-								"activity": "Copy data3",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "AzureSqlSource",
-								"queryTimeout": "02:00:00",
-								"partitionOption": "None"
-							},
-							"sink": {
-								"type": "DelimitedTextSink",
-								"storeSettings": {
-									"type": "AzureBlobFSWriteSettings"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextWriteSettings",
-									"quoteAllText": true,
-									"fileExtension": ".txt"
-								}
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "ds_tbl_tipos_movimiento",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "ds_bronze_tbl_tipos_movimento",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					},
-					{
-						"name": "Copy data5",
-						"type": "Copy",
-						"dependsOn": [
-							{
-								"activity": "Copy data4",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "AzureSqlSource",
-								"queryTimeout": "02:00:00",
-								"partitionOption": "None"
-							},
-							"sink": {
-								"type": "DelimitedTextSink",
-								"storeSettings": {
-									"type": "AzureBlobFSWriteSettings"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextWriteSettings",
-									"quoteAllText": true,
-									"fileExtension": ".txt"
-								}
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "ds_tbl_tipos_operacion",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "ds_bronze_tbl_tipos_operacion",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					},
-					{
-						"name": "Copy data6",
-						"type": "Copy",
-						"dependsOn": [
-							{
-								"activity": "Copy data5",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "AzureSqlSource",
-								"queryTimeout": "02:00:00",
-								"partitionOption": "None"
-							},
-							"sink": {
-								"type": "DelimitedTextSink",
-								"storeSettings": {
-									"type": "AzureBlobFSWriteSettings"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextWriteSettings",
-									"quoteAllText": true,
-									"fileExtension": ".txt"
-								}
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "ds_tbl_unidades",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "ds_bronze_tbl_unidades",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					},
-					{
-						"name": "Copy data7",
-						"type": "Copy",
-						"dependsOn": [
-							{
-								"activity": "Copy data6",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "AzureSqlSource",
-								"queryTimeout": "02:00:00",
-								"partitionOption": "None"
-							},
-							"sink": {
-								"type": "DelimitedTextSink",
-								"storeSettings": {
-									"type": "AzureBlobFSWriteSettings"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextWriteSettings",
-									"quoteAllText": true,
-									"fileExtension": ".txt"
-								}
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "ds_tbl_zonas",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "ds_bronze_tbl_zonas",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/ds_tbl_estructura_organizacional')]",
-				"[concat(variables('factoryId'), '/datasets/ds_bronze_tbl_estructura_organizacional')]",
-				"[concat(variables('factoryId'), '/datasets/ds_tbl_movimientos_personal')]",
-				"[concat(variables('factoryId'), '/datasets/ds_bronze_tbl_movimientos_personal')]",
-				"[concat(variables('factoryId'), '/datasets/ds_tbl_operaciones')]",
-				"[concat(variables('factoryId'), '/datasets/ds_bronze_tbl_operaciones')]",
-				"[concat(variables('factoryId'), '/datasets/ds_tbl_rangos')]",
-				"[concat(variables('factoryId'), '/datasets/ds_bronze_tbl_rangos')]",
-				"[concat(variables('factoryId'), '/datasets/ds_tbl_tipos_movimiento')]",
-				"[concat(variables('factoryId'), '/datasets/ds_bronze_tbl_tipos_movimento')]",
-				"[concat(variables('factoryId'), '/datasets/ds_tbl_tipos_operacion')]",
-				"[concat(variables('factoryId'), '/datasets/ds_bronze_tbl_tipos_operacion')]",
-				"[concat(variables('factoryId'), '/datasets/ds_tbl_unidades')]",
-				"[concat(variables('factoryId'), '/datasets/ds_bronze_tbl_unidades')]",
-				"[concat(variables('factoryId'), '/datasets/ds_tbl_zonas')]",
-				"[concat(variables('factoryId'), '/datasets/ds_bronze_tbl_zonas')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/pl_silver_efectivos')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Data flow1",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "df_silver_rangos",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"source1": {},
-									"sink1": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/df_silver_rangos')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ds_bronze_tbl_efectivos')]",
+			"name": "[concat(parameters('factoryName'), '/ds_gold_dim_efectivo')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"linkedServiceName": {
-					"referenceName": "datalake_ffaa",
+					"referenceName": "db_dw_fuerzas_armadas",
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "bronze"
+					"name": "gold"
 				},
 				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileName": "tbl_efectivos.csv",
-						"fileSystem": "bronze"
-					},
-					"columnDelimiter": ",",
-					"encodingName": "ISO-8859-1",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
+				"type": "AzureSqlTable",
 				"schema": [
 					{
 						"name": "id_efectivo",
-						"type": "String"
+						"type": "int",
+						"precision": 10
 					},
 					{
 						"name": "id_especialidad",
-						"type": "String"
+						"type": "int",
+						"precision": 10
 					},
 					{
 						"name": "id_unidad_actual",
-						"type": "String"
+						"type": "int",
+						"precision": 10
 					},
 					{
 						"name": "id_rango_actual",
-						"type": "String"
+						"type": "int",
+						"precision": 10
 					},
 					{
 						"name": "nombre",
-						"type": "String"
+						"type": "varchar"
 					},
 					{
 						"name": "ci",
-						"type": "String"
+						"type": "varchar"
 					},
 					{
 						"name": "fecha_nacimiento",
-						"type": "String"
+						"type": "date"
 					},
 					{
 						"name": "genero",
-						"type": "String"
+						"type": "varchar"
 					},
 					{
 						"name": "departamento_origen",
-						"type": "String"
+						"type": "varchar"
 					},
 					{
 						"name": "fecha_ingreso",
-						"type": "String"
+						"type": "date"
 					},
 					{
 						"name": "estado",
-						"type": "String"
+						"type": "varchar"
 					},
 					{
 						"name": "salario_mensual",
-						"type": "String"
+						"type": "decimal",
+						"precision": 18,
+						"scale": 2
 					}
-				]
+				],
+				"typeProperties": {
+					"schema": "gold",
+					"table": "dim_efectivo"
+				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/datalake_ffaa')]"
+				"[concat(variables('factoryId'), '/linkedServices/db_dw_fuerzas_armadas')]"
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/ds_bronze_tbl_especialidades')]",
+			"name": "[concat(parameters('factoryName'), '/ds_gold_dim_especialidad')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"linkedServiceName": {
-					"referenceName": "datalake_ffaa",
+					"referenceName": "db_dw_fuerzas_armadas",
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "bronze"
+					"name": "gold"
 				},
 				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileName": "tbl_especialidades.csv",
-						"fileSystem": "bronze"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
+				"type": "AzureSqlTable",
 				"schema": [
 					{
 						"name": "id_especialidad",
-						"type": "String"
+						"type": "int",
+						"precision": 10
 					},
 					{
 						"name": "nombre",
-						"type": "String"
+						"type": "varchar"
 					},
 					{
 						"name": "area",
-						"type": "String"
+						"type": "varchar"
 					}
-				]
+				],
+				"typeProperties": {
+					"schema": "gold",
+					"table": "dim_especialidad"
+				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/datalake_ffaa')]"
+				"[concat(variables('factoryId'), '/linkedServices/db_dw_fuerzas_armadas')]"
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/ds_bronze_tbl_estructura_organizacional')]",
+			"name": "[concat(parameters('factoryName'), '/ds_gold_dim_rango')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"linkedServiceName": {
-					"referenceName": "datalake_ffaa",
+					"referenceName": "db_dw_fuerzas_armadas",
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "bronze"
+					"name": "gold"
 				},
 				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileName": "tbl_estructura_organizacional.csv",
-						"fileSystem": "bronze"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "id_estructura",
-						"type": "String"
-					},
-					{
-						"name": "id_padre",
-						"type": "String"
-					},
-					{
-						"name": "nivel",
-						"type": "String"
-					},
-					{
-						"name": "nombre",
-						"type": "String"
-					},
-					{
-						"name": "sigla",
-						"type": "String"
-					},
-					{
-						"name": "tipo",
-						"type": "String"
-					},
-					{
-						"name": "cobertura_departamentos",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/datalake_ffaa')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ds_bronze_tbl_movimientos_personal')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "datalake_ffaa",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "bronze"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileName": "tbl_movimientos_personal.csv",
-						"fileSystem": "bronze"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "id_movimiento",
-						"type": "String"
-					},
-					{
-						"name": "id_efectivo",
-						"type": "String"
-					},
-					{
-						"name": "id_unidad_destino",
-						"type": "String"
-					},
-					{
-						"name": "id_rango",
-						"type": "String"
-					},
-					{
-						"name": "id_tipo",
-						"type": "String"
-					},
-					{
-						"name": "fecha_movimiento",
-						"type": "String"
-					},
-					{
-						"name": "antiguedad_anios",
-						"type": "String"
-					},
-					{
-						"name": "salario_mensual",
-						"type": "String"
-					},
-					{
-						"name": "observaciones",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/datalake_ffaa')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ds_bronze_tbl_operaciones')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "datalake_ffaa",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "bronze"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileName": "tbl_operaciones.csv",
-						"fileSystem": "bronze"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "id_operacion",
-						"type": "String"
-					},
-					{
-						"name": "id_tipo",
-						"type": "String"
-					},
-					{
-						"name": "id_unidad_resp",
-						"type": "String"
-					},
-					{
-						"name": "id_zona",
-						"type": "String"
-					},
-					{
-						"name": "nombre_operacion",
-						"type": "String"
-					},
-					{
-						"name": "fecha_inicio",
-						"type": "String"
-					},
-					{
-						"name": "fecha_fin",
-						"type": "String"
-					},
-					{
-						"name": "efectivos_desplegados",
-						"type": "String"
-					},
-					{
-						"name": "vehiculos_utilizados",
-						"type": "String"
-					},
-					{
-						"name": "duracion_dias",
-						"type": "String"
-					},
-					{
-						"name": "costo_operacion",
-						"type": "String"
-					},
-					{
-						"name": "resultado",
-						"type": "String"
-					},
-					{
-						"name": "detenidos",
-						"type": "String"
-					},
-					{
-						"name": "area_km2",
-						"type": "String"
-					},
-					{
-						"name": "incidentes",
-						"type": "String"
-					},
-					{
-						"name": "observaciones",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/datalake_ffaa')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ds_bronze_tbl_rangos')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "datalake_ffaa",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "bronze"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileName": "tbl_rangos.csv",
-						"fileSystem": "bronze"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
+				"type": "AzureSqlTable",
 				"schema": [
 					{
 						"name": "id_rango",
-						"type": "String"
+						"type": "int",
+						"precision": 10
 					},
 					{
 						"name": "nombre",
-						"type": "String"
+						"type": "varchar"
 					},
 					{
 						"name": "categoria",
-						"type": "String"
+						"type": "varchar"
 					},
 					{
 						"name": "nivel_jerarquico",
-						"type": "String"
+						"type": "int",
+						"precision": 10
 					},
 					{
 						"name": "abreviatura",
-						"type": "String"
+						"type": "varchar"
 					}
-				]
+				],
+				"typeProperties": {
+					"schema": "gold",
+					"table": "dim_rango"
+				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/datalake_ffaa')]"
+				"[concat(variables('factoryId'), '/linkedServices/db_dw_fuerzas_armadas')]"
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/ds_bronze_tbl_tipos_movimento')]",
+			"name": "[concat(parameters('factoryName'), '/ds_gold_dim_tiempo')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"linkedServiceName": {
-					"referenceName": "datalake_ffaa",
+					"referenceName": "db_dw_fuerzas_armadas",
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "bronze"
+					"name": "gold"
 				},
 				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileName": "tbl_tipos_movimiento.csv",
-						"fileSystem": "bronze"
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "fecha",
+						"type": "date"
 					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
+					{
+						"name": "anio",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "trimestre",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "mes",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "nombre_mes",
+						"type": "varchar"
+					},
+					{
+						"name": "dia",
+						"type": "int",
+						"precision": 10
+					}
+				],
+				"typeProperties": {
+					"schema": "gold",
+					"table": "dim_tiempo"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/db_dw_fuerzas_armadas')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_gold_dim_tipo_movimiento')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "db_dw_fuerzas_armadas",
+					"type": "LinkedServiceReference"
 				},
+				"folder": {
+					"name": "gold"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
 				"schema": [
 					{
 						"name": "id_tipo",
-						"type": "String"
+						"type": "int",
+						"precision": 10
 					},
 					{
 						"name": "nombre",
-						"type": "String"
+						"type": "varchar"
 					},
 					{
 						"name": "descripcion",
-						"type": "String"
+						"type": "varchar"
 					}
-				]
+				],
+				"typeProperties": {
+					"schema": "gold",
+					"table": "dim_tipo_movimiento"
+				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/datalake_ffaa')]"
+				"[concat(variables('factoryId'), '/linkedServices/db_dw_fuerzas_armadas')]"
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/ds_bronze_tbl_tipos_operacion')]",
+			"name": "[concat(parameters('factoryName'), '/ds_gold_dim_tipo_operacion')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"linkedServiceName": {
-					"referenceName": "datalake_ffaa",
+					"referenceName": "db_dw_fuerzas_armadas",
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "bronze"
+					"name": "gold"
 				},
 				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileName": "tbl_tipos_operacion.csv",
-						"fileSystem": "bronze"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
+				"type": "AzureSqlTable",
 				"schema": [
 					{
 						"name": "id_tipo",
-						"type": "String"
+						"type": "int",
+						"precision": 10
 					},
 					{
 						"name": "nombre",
-						"type": "String"
+						"type": "varchar"
 					},
 					{
 						"name": "categoria",
-						"type": "String"
+						"type": "varchar"
 					}
-				]
+				],
+				"typeProperties": {
+					"schema": "gold",
+					"table": "dim_tipo_operacion"
+				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/datalake_ffaa')]"
+				"[concat(variables('factoryId'), '/linkedServices/db_dw_fuerzas_armadas')]"
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/ds_bronze_tbl_unidades')]",
+			"name": "[concat(parameters('factoryName'), '/ds_gold_dim_unidad')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"linkedServiceName": {
-					"referenceName": "datalake_ffaa",
+					"referenceName": "db_dw_fuerzas_armadas",
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "bronze"
+					"name": "gold"
 				},
 				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileName": "tbl_unidades.csv",
-						"fileSystem": "bronze"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
+				"type": "AzureSqlTable",
 				"schema": [
 					{
 						"name": "id_unidad",
-						"type": "String"
+						"type": "int",
+						"precision": 10
 					},
 					{
 						"name": "id_brigada",
-						"type": "String"
+						"type": "int",
+						"precision": 10
 					},
 					{
 						"name": "nombre",
-						"type": "String"
+						"type": "varchar"
 					},
 					{
 						"name": "codigo",
-						"type": "String"
+						"type": "varchar"
 					},
 					{
 						"name": "ciudad",
-						"type": "String"
+						"type": "varchar"
 					},
 					{
 						"name": "departamento",
-						"type": "String"
+						"type": "varchar"
 					},
 					{
 						"name": "tipo_cuartel",
-						"type": "String"
+						"type": "varchar"
 					}
-				]
+				],
+				"typeProperties": {
+					"schema": "gold",
+					"table": "dim_unidad"
+				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/datalake_ffaa')]"
+				"[concat(variables('factoryId'), '/linkedServices/db_dw_fuerzas_armadas')]"
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/ds_bronze_tbl_zonas')]",
+			"name": "[concat(parameters('factoryName'), '/ds_gold_dim_zona_operacion')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"linkedServiceName": {
-					"referenceName": "datalake_ffaa",
+					"referenceName": "db_dw_fuerzas_armadas",
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "bronze"
+					"name": "gold"
 				},
 				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileName": "tbl_zonas.csv",
-						"fileSystem": "bronze"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
+				"type": "AzureSqlTable",
 				"schema": [
 					{
 						"name": "id_zona",
-						"type": "String"
+						"type": "int",
+						"precision": 10
 					},
 					{
 						"name": "nombre",
-						"type": "String"
+						"type": "varchar"
 					},
 					{
 						"name": "departamento",
-						"type": "String"
+						"type": "varchar"
 					},
 					{
 						"name": "frontera_con",
-						"type": "String"
+						"type": "varchar"
 					},
 					{
 						"name": "tipo_terreno",
-						"type": "String"
+						"type": "varchar"
 					},
 					{
 						"name": "altitud_msnm",
-						"type": "String"
+						"type": "int",
+						"precision": 10
 					},
 					{
 						"name": "nivel_riesgo",
-						"type": "String"
-					},
-					{
-						"name": "acceso_carretero",
-						"type": "String"
+						"type": "varchar"
 					}
-				]
+				],
+				"typeProperties": {
+					"schema": "gold",
+					"table": "dim_zona_operacion"
+				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/datalake_ffaa')]"
+				"[concat(variables('factoryId'), '/linkedServices/db_dw_fuerzas_armadas')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_gold_hechos_movimientos_personal')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "db_dw_fuerzas_armadas",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "gold"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "id_movimiento",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "id_efectivo",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "id_unidad_destino",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "id_rango",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "id_tipo_movimiento",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "fecha_movimiento",
+						"type": "date"
+					},
+					{
+						"name": "antiguedad_anios",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "salario_mensual",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 2
+					}
+				],
+				"typeProperties": {
+					"schema": "gold",
+					"table": "hechos_movimiento_personal"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/db_dw_fuerzas_armadas')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_gold_hechos_operacion')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "db_dw_fuerzas_armadas",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "gold"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "id_operacion",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "id_tipo_operacion",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "id_unidad_resp",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "id_zona",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "fecha_inicio",
+						"type": "date"
+					},
+					{
+						"name": "fecha_fin",
+						"type": "date"
+					},
+					{
+						"name": "efectivos_desplegados",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "vehiculos_utilizados",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "duracion_dias",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "costo_operacion",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 2
+					},
+					{
+						"name": "area_km2",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 2
+					},
+					{
+						"name": "incidentes_reportados",
+						"type": "int",
+						"precision": 10
+					}
+				],
+				"typeProperties": {
+					"schema": "gold",
+					"table": "hechos_operacion"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/db_dw_fuerzas_armadas')]"
 			]
 		},
 		{
@@ -2420,6 +1818,28 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/db_dw_fuerzas_armadas')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"server": "[parameters('db_dw_fuerzas_armadas_properties_typeProperties_server')]",
+					"database": "[parameters('db_dw_fuerzas_armadas_properties_typeProperties_database')]",
+					"encrypt": "mandatory",
+					"trustServerCertificate": false,
+					"authenticationType": "SQL",
+					"userName": "[parameters('db_dw_fuerzas_armadas_properties_typeProperties_userName')]",
+					"password": {
+						"type": "SecureString",
+						"value": "[parameters('db_dw_fuerzas_armadas_password')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/db_fuerzas_armadas')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -2442,7 +1862,7 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/df_silver_efectivos')]",
+			"name": "[concat(parameters('factoryName'), '/df_gold_dim_efectivo')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -2451,7 +1871,7 @@
 					"sources": [
 						{
 							"dataset": {
-								"referenceName": "ds_bronze_tbl_efectivos",
+								"referenceName": "ds_silver_efectivos",
 								"type": "DatasetReference"
 							},
 							"name": "source1"
@@ -2460,17 +1880,13 @@
 					"sinks": [
 						{
 							"dataset": {
-								"referenceName": "ds_silver_efectivos",
+								"referenceName": "ds_gold_dim_efectivo",
 								"type": "DatasetReference"
 							},
 							"name": "sink1"
 						}
 					],
-					"transformations": [
-						{
-							"name": "derivedColumn1"
-						}
-					],
+					"transformations": [],
 					"scriptLines": [
 						"source(output(",
 						"          id_efectivo as string,",
@@ -2489,116 +1905,30 @@
 						"     allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     ignoreNoFilesFound: false) ~> source1",
-						"source1 derive(genero = case(\r",
-						"    in(['M','H','MASC.','MASCULINO','HOMBRE'], upper(trim(genero))), 'MASCULINO',\r",
-						"    in(['F','FEM','FEM.','FEMENINO','MUJER'], upper(trim(genero))), 'FEMENINO',\r",
-						"    'SIN DATO'\r",
-						"),",
-						"          departamento_origen = case(\r",
-						"    in(['LP','L.P.','LAPAZ','LA PAZ'], upper(trim(departamento_origen))), 'LA PAZ',\r",
-						"    in(['CBBA','CBBA.','COCHABAMBA'], upper(trim(departamento_origen))), 'COCHABAMBA',\r",
-						"    in(['SC','SCZ','STA CRUZ','SANTA CRUZ'], upper(trim(departamento_origen))), 'SANTA CRUZ',\r",
-						"    in(['OR','ORURO'], upper(trim(departamento_origen))), 'ORURO',\r",
-						"    in(['PT','POTOSI'], upper(trim(departamento_origen))), 'POTOSI',\r",
-						"    in(['TJ','TARIJA'], upper(trim(departamento_origen))), 'TARIJA',\r",
-						"    in(['BN','BENI'], upper(trim(departamento_origen))), 'BENI',\r",
-						"    in(['PD','PANDO'], upper(trim(departamento_origen))), 'PANDO',\r",
-						"    in(['CH','CHUQUISACA'], upper(trim(departamento_origen))), 'CHUQUISACA',\r",
-						"    upper(trim(departamento_origen))\r",
-						"),",
-						"          estado = case(\r",
-						"    in(['ACTIVO','ACT','ACT.','ACTV','A','EN ACTIVIDAD'], upper(trim(estado))), 'ACTIVO',\r",
-						"    in(['R','RSV','RESERVA','EN RESERVA'], upper(trim(estado))), 'RESERVA',\r",
-						"    in(['BAJA','B','DADO DE BAJA'], upper(trim(estado))), 'BAJA',\r",
-						"    'SIN DATO'\r",
-						"),",
-						"          ci = regexReplace(\r",
-						"    toString(ci),\r",
-						"    '[^0-9]',\r",
-						"    ''\r",
-						"),",
-						"          salario_mensual = toDecimal(\r",
-						"    regexReplace(\r",
-						"        toString(salario_mensual),\r",
-						"        '[^0-9.]',\r",
-						"        ''\r",
-						"    )\r",
-						"),",
-						"          fecha_nacimiento = coalesce(\r",
-						"    toDate(fecha_nacimiento,'yyyy-MM-dd'),\r",
-						"    toDate(fecha_nacimiento,'dd/MM/yyyy'),\r",
-						"    toDate(fecha_nacimiento,'MM-dd-yyyy'),\r",
-						"    toDate(fecha_nacimiento,'yyyy/MM/dd'),\r",
-						"    toDate(fecha_nacimiento,'dd-MM-yyyy')\r",
-						"),",
-						"          fecha_ingreso = coalesce(\r",
-						"    toDate(fecha_ingreso,'yyyy-MM-dd'),\r",
-						"    toDate(fecha_ingreso,'dd/MM/yyyy'),\r",
-						"    toDate(fecha_ingreso,'MM-dd-yyyy'),\r",
-						"    toDate(fecha_ingreso,'yyyy/MM/dd'),\r",
-						"    toDate(fecha_ingreso,'dd-MM-yyyy')\r",
-						"),",
-						"          nombre = initCap(\r",
-						"    regexReplace(\r",
-						"        replace(\r",
-						"            replace(\r",
-						"                replace(\r",
-						"                    replace(\r",
-						"                        replace(\r",
-						"                            replace(\r",
-						"                                replace(\r",
-						"                                    replace(\r",
-						"                                        trim(nombre),\r",
-						"                                        '\\\\t',\r",
-						"                                        ' '\r",
-						"                                    ),\r",
-						"                                    'Ã¡',\r",
-						"                                    'á'\r",
-						"                                ),\r",
-						"                                'Ã©',\r",
-						"                                'é'\r",
-						"                            ),\r",
-						"                            'Ã­',\r",
-						"                            'í'\r",
-						"                        ),\r",
-						"                        'Ã³',\r",
-						"                        'ó'\r",
-						"                    ),\r",
-						"                    'Ãº',\r",
-						"                    'ú'\r",
-						"                ),\r",
-						"                'Ã±',\r",
-						"                'ñ'\r",
-						"            ),\r",
-						"            '#',\r",
-						"            ' '\r",
-						"        ),\r",
-						"        '\\\\s+',\r",
-						"        ' '\r",
-						"    )\r",
-						")) ~> derivedColumn1",
-						"derivedColumn1 sink(allowSchemaDrift: true,",
+						"source1 sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     input(",
-						"          id_efectivo as string,",
-						"          id_especialidad as string,",
-						"          id_unidad_actual as string,",
-						"          id_rango_actual as string,",
+						"          id_efectivo as integer,",
+						"          id_especialidad as integer,",
+						"          id_unidad_actual as integer,",
+						"          id_rango_actual as integer,",
 						"          nombre as string,",
 						"          ci as string,",
-						"          fecha_nacimiento as string,",
+						"          fecha_nacimiento as date,",
 						"          genero as string,",
 						"          departamento_origen as string,",
-						"          fecha_ingreso as string,",
+						"          fecha_ingreso as date,",
 						"          estado as string,",
-						"          salario_mensual as string",
+						"          salario_mensual as decimal(18,2)",
 						"     ),",
-						"     partitionFileNames:['tbl_efectivos.csv'],",
-						"     umask: 0022,",
-						"     preCommands: [],",
-						"     postCommands: [],",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
 						"     skipDuplicateMapInputs: true,",
 						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
 						"     mapColumn(",
 						"          id_efectivo,",
 						"          id_especialidad,",
@@ -2613,37 +1943,39 @@
 						"          estado,",
 						"          salario_mensual",
 						"     ),",
-						"     partitionBy('hash', 1)) ~> sink1"
+						"     partitionBy('hash', 1),",
+						"     preCommands: [],",
+						"     postCommands: []) ~> sink1"
 					]
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/ds_bronze_tbl_efectivos')]",
-				"[concat(variables('factoryId'), '/datasets/ds_silver_efectivos')]"
+				"[concat(variables('factoryId'), '/datasets/ds_silver_efectivos')]",
+				"[concat(variables('factoryId'), '/datasets/ds_gold_dim_efectivo')]"
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/df_silver_especialidades')]",
+			"name": "[concat(parameters('factoryName'), '/df_gold_dim_especialidad')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"type": "MappingDataFlow",
 				"typeProperties": {
 					"sources": [
-						{
-							"dataset": {
-								"referenceName": "ds_bronze_tbl_especialidades",
-								"type": "DatasetReference"
-							},
-							"name": "source1"
-						}
-					],
-					"sinks": [
 						{
 							"dataset": {
 								"referenceName": "ds_silver_especialidades",
 								"type": "DatasetReference"
 							},
+							"name": "source1"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "ds_gold_dim_especialidad",
+								"type": "DatasetReference"
+							},
 							"name": "sink1"
 						}
 					],
@@ -2660,47 +1992,51 @@
 						"source1 sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     input(",
-						"          id_especialidad as string,",
+						"          id_especialidad as integer,",
 						"          nombre as string,",
 						"          area as string",
 						"     ),",
-						"     partitionFileNames:['tbl_especialidades.csv'],",
-						"     umask: 0022,",
-						"     preCommands: [],",
-						"     postCommands: [],",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
 						"     skipDuplicateMapInputs: true,",
 						"     skipDuplicateMapOutputs: true,",
-						"     partitionBy('hash', 1)) ~> sink1"
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     partitionBy('hash', 1),",
+						"     preCommands: [],",
+						"     postCommands: []) ~> sink1"
 					]
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/ds_bronze_tbl_especialidades')]",
-				"[concat(variables('factoryId'), '/datasets/ds_silver_especialidades')]"
+				"[concat(variables('factoryId'), '/datasets/ds_silver_especialidades')]",
+				"[concat(variables('factoryId'), '/datasets/ds_gold_dim_especialidad')]"
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/df_silver_rangos')]",
+			"name": "[concat(parameters('factoryName'), '/df_gold_dim_rango')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"type": "MappingDataFlow",
 				"typeProperties": {
 					"sources": [
-						{
-							"dataset": {
-								"referenceName": "ds_bronze_tbl_rangos",
-								"type": "DatasetReference"
-							},
-							"name": "source1"
-						}
-					],
-					"sinks": [
 						{
 							"dataset": {
 								"referenceName": "ds_silver_rangos",
 								"type": "DatasetReference"
 							},
+							"name": "source1"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "ds_gold_dim_rango",
+								"type": "DatasetReference"
+							},
 							"name": "sink1"
 						}
 					],
@@ -2719,648 +2055,53 @@
 						"source1 sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     input(",
-						"          id_rango as string,",
+						"          id_rango as integer,",
 						"          nombre as string,",
 						"          categoria as string,",
-						"          nivel_jerarquico as string,",
+						"          nivel_jerarquico as integer,",
 						"          abreviatura as string",
 						"     ),",
-						"     partitionFileNames:['tbl_rangos.csv'],",
-						"     umask: 0022,",
-						"     preCommands: [],",
-						"     postCommands: [],",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
 						"     skipDuplicateMapInputs: true,",
 						"     skipDuplicateMapOutputs: true,",
-						"     partitionBy('hash', 1)) ~> sink1"
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     partitionBy('hash', 1),",
+						"     preCommands: [],",
+						"     postCommands: []) ~> sink1"
 					]
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/ds_bronze_tbl_rangos')]",
-				"[concat(variables('factoryId'), '/datasets/ds_silver_rangos')]"
+				"[concat(variables('factoryId'), '/datasets/ds_silver_rangos')]",
+				"[concat(variables('factoryId'), '/datasets/ds_gold_dim_rango')]"
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/df_silver_unidades')]",
+			"name": "[concat(parameters('factoryName'), '/df_gold_dim_tipo_operacion')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"type": "MappingDataFlow",
 				"typeProperties": {
 					"sources": [
-						{
-							"dataset": {
-								"referenceName": "ds_bronze_tbl_unidades",
-								"type": "DatasetReference"
-							},
-							"name": "source1"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "ds_silver_unidades",
-								"type": "DatasetReference"
-							},
-							"name": "sink1"
-						}
-					],
-					"transformations": [],
-					"scriptLines": [
-						"source(output(",
-						"          id_unidad as string,",
-						"          id_brigada as string,",
-						"          nombre as string,",
-						"          codigo as string,",
-						"          ciudad as string,",
-						"          departamento as string,",
-						"          tipo_cuartel as string",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false) ~> source1",
-						"source1 sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     input(",
-						"          id_unidad as string,",
-						"          id_brigada as string,",
-						"          nombre as string,",
-						"          codigo as string,",
-						"          ciudad as string,",
-						"          departamento as string,",
-						"          tipo_cuartel as string",
-						"     ),",
-						"     partitionFileNames:['tbl_unidades.csv'],",
-						"     umask: 0022,",
-						"     preCommands: [],",
-						"     postCommands: [],",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     partitionBy('hash', 1)) ~> sink1"
-					]
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/ds_bronze_tbl_unidades')]",
-				"[concat(variables('factoryId'), '/datasets/ds_silver_unidades')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/powerquery1')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "WranglingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"name": "ds_bronze_tbl_efectivos",
-							"script": "source(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> ds_bronze_tbl_efectivos",
-							"dataset": {
-								"referenceName": "ds_bronze_tbl_efectivos",
-								"type": "DatasetReference"
-							}
-						}
-					],
-					"script": "section Section1;\r\nshared ds_bronze_tbl_efectivos = let AdfDoc = AzureStorage.DataLakeContents(\"https://saffaa10369756.dfs.core.windows.net/bronze/tbl_efectivos.csv\"),Csv = Csv.Document(AdfDoc, [Delimiter = \",\", Encoding = TextEncoding.Utf8, QuoteStyle = QuoteStyle.Csv]), PromotedHeaders = Table.PromoteHeaders(Csv, [PromoteAllScalars = true]) in  PromotedHeaders;\r\nshared UserQuery = let Source = #\"ds_bronze_tbl_efectivos\" in Source;\r\n",
-					"documentLocale": "en-us"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/ds_bronze_tbl_efectivos')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/df_silver_operaciones')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "ds_bronze_tbl_operaciones",
-								"type": "DatasetReference"
-							},
-							"name": "source1"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "ds_silver_operaciones",
-								"type": "DatasetReference"
-							},
-							"name": "sink1"
-						}
-					],
-					"transformations": [
-						{
-							"name": "derivedColumn1"
-						},
-						{
-							"name": "derivedColumn2"
-						}
-					],
-					"scriptLines": [
-						"source(output(",
-						"          id_operacion as string,",
-						"          id_tipo as string,",
-						"          id_unidad_resp as string,",
-						"          id_zona as string,",
-						"          nombre_operacion as string,",
-						"          fecha_inicio as string,",
-						"          fecha_fin as string,",
-						"          efectivos_desplegados as string,",
-						"          vehiculos_utilizados as string,",
-						"          duracion_dias as string,",
-						"          costo_operacion as string,",
-						"          resultado as string,",
-						"          detenidos as string,",
-						"          area_km2 as string,",
-						"          incidentes as string,",
-						"          observaciones as string",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false) ~> source1",
-						"source1 derive(efectivos_desplegados = iif(\r",
-						"    lower(trim(efectivos_desplegados)) == 'trescientos',\r",
-						"    300,\r",
-						"    iif(\r",
-						"        lower(trim(efectivos_desplegados)) == 'doscientos',\r",
-						"        200,\r",
-						"        toInteger(regexReplace(efectivos_desplegados,'[^0-9]',''))\r",
-						"    )\r",
-						"),",
-						"          vehiculos_utilizados = iif(\r",
-						"    lower(trim(vehiculos_utilizados)) == 'veinte',\r",
-						"    20,\r",
-						"    toInteger(regexReplace(vehiculos_utilizados,'[^0-9]',''))\r",
-						"),",
-						"          duracion_dias = toInteger(\r",
-						"    regexReplace(duracion_dias,'[^0-9]','')\r",
-						"),",
-						"          costo_operacion = toInteger(\r",
-						"    regexReplace(duracion_dias,'[^0-9]','')\r",
-						"),",
-						"          resultado = upper(trim(resultado)),",
-						"          detenidos = iif(\r",
-						"    lower(trim(detenidos)) == 'ninguno',\r",
-						"    0,\r",
-						"    iif(\r",
-						"        lower(trim(detenidos)) == 'sin detenidos',\r",
-						"        0,\r",
-						"        iif(\r",
-						"            lower(trim(detenidos)) == 'cero',\r",
-						"            0,\r",
-						"            toInteger(regexReplace(detenidos,'[^0-9]',''))\r",
-						"        )\r",
-						"    )\r",
-						"),",
-						"          area_km2 = toInteger(\r",
-						"    regexReplace(area_km2,'[^0-9]','')\r",
-						"),",
-						"          incidentes = iif(\r",
-						"    lower(trim(incidentes)) == 'uno',\r",
-						"    1,\r",
-						"    toInteger(regexReplace(incidentes,'[^0-9]',''))\r",
-						"),",
-						"          fecha_inicio_normalizada_texto = replace(\r",
-						"replace(\r",
-						"replace(\r",
-						"replace(\r",
-						"replace(\r",
-						"replace(\r",
-						"replace(\r",
-						"replace(\r",
-						"replace(\r",
-						"replace(\r",
-						"replace(\r",
-						"replace(\r",
-						"replace(\r",
-						"replace(\r",
-						"replace(\r",
-						"replace(\r",
-						"replace(\r",
-						"replace(\r",
-						"replace(\r",
-						"replace(\r",
-						"replace(\r",
-						"replace(\r",
-						"replace(\r",
-						"replace(\r",
-						"upper(trim(fecha_inicio)),\r",
-						"'ENERO','01'),\r",
-						"'FEBRERO','02'),\r",
-						"'MARZO','03'),\r",
-						"'ABRIL','04'),\r",
-						"'MAYO','05'),\r",
-						"'JUNIO','06'),\r",
-						"'JULIO','07'),\r",
-						"'AGOSTO','08'),\r",
-						"'SEPTIEMBRE','09'),\r",
-						"'OCTUBRE','10'),\r",
-						"'NOVIEMBRE','11'),\r",
-						"'DICIEMBRE','12'),\r",
-						"'ENE','01'),\r",
-						"'FEB','02'),\r",
-						"'MAR','03'),\r",
-						"'ABR','04'),\r",
-						"'MAY','05'),\r",
-						"'JUN','06'),\r",
-						"'JUL','07'),\r",
-						"'AGO','08'),\r",
-						"'SEP','09'),\r",
-						"'OCT','10'),\r",
-						"'NOV','11'),\r",
-						"'DIC','12'),",
-						"          fecha_fin_normalizada_texto = replace(\r",
-						"replace(\r",
-						"replace(\r",
-						"replace(\r",
-						"replace(\r",
-						"replace(\r",
-						"replace(\r",
-						"replace(\r",
-						"replace(\r",
-						"replace(\r",
-						"replace(\r",
-						"replace(\r",
-						"replace(\r",
-						"replace(\r",
-						"replace(\r",
-						"replace(\r",
-						"replace(\r",
-						"replace(\r",
-						"replace(\r",
-						"replace(\r",
-						"replace(\r",
-						"replace(\r",
-						"replace(\r",
-						"replace(\r",
-						"upper(trim(fecha_fin)),\r",
-						"'ENERO','01'),\r",
-						"'FEBRERO','02'),\r",
-						"'MARZO','03'),\r",
-						"'ABRIL','04'),\r",
-						"'MAYO','05'),\r",
-						"'JUNIO','06'),\r",
-						"'JULIO','07'),\r",
-						"'AGOSTO','08'),\r",
-						"'SEPTIEMBRE','09'),\r",
-						"'OCTUBRE','10'),\r",
-						"'NOVIEMBRE','11'),\r",
-						"'DICIEMBRE','12'),\r",
-						"'ENE','01'),\r",
-						"'FEB','02'),\r",
-						"'MAR','03'),\r",
-						"'ABR','04'),\r",
-						"'MAY','05'),\r",
-						"'JUN','06'),\r",
-						"'JUL','07'),\r",
-						"'AGO','08'),\r",
-						"'SEP','09'),\r",
-						"'OCT','10'),\r",
-						"'NOV','11'),\r",
-						"'DIC','12')) ~> derivedColumn1",
-						"derivedColumn1 derive(fecha_inicio_limpia = coalesce(\r",
-						"    toDate(fecha_inicio_normalizada_texto,'yyyy-MM-dd'),\r",
-						"    toDate(fecha_inicio_normalizada_texto,'yyyy/MM/dd'),\r",
-						"    toDate(fecha_inicio_normalizada_texto,'yyyyMMdd'),\r",
-						"    toDate(fecha_inicio_normalizada_texto,'dd/MM/yyyy'),\r",
-						"    toDate(fecha_inicio_normalizada_texto,'MM-dd-yyyy'),\r",
-						"    toDate(fecha_inicio_normalizada_texto,'dd-MM-yyyy')\r",
-						"),",
-						"          fecha_fin_limpia = coalesce(\r",
-						"    toDate(fecha_fin_normalizada_texto,'yyyy-MM-dd'),\r",
-						"    toDate(fecha_fin_normalizada_texto,'yyyy/MM/dd'),\r",
-						"    toDate(fecha_fin_normalizada_texto,'yyyyMMdd'),\r",
-						"    toDate(fecha_fin_normalizada_texto,'dd/MM/yyyy'),\r",
-						"    toDate(fecha_fin_normalizada_texto,'MM-dd-yyyy'),\r",
-						"    toDate(fecha_fin_normalizada_texto,'dd-MM-yyyy')\r",
-						")) ~> derivedColumn2",
-						"derivedColumn2 sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     input(",
-						"          id_operacion as string,",
-						"          id_tipo as string,",
-						"          id_unidad_resp as string,",
-						"          id_zona as string,",
-						"          nombre_operacion as string,",
-						"          fecha_inicio as string,",
-						"          fecha_fin as string,",
-						"          efectivos_desplegados as string,",
-						"          vehiculos_utilizados as string,",
-						"          duracion_dias as string,",
-						"          costo_operacion as string,",
-						"          resultado as string,",
-						"          detenidos as string,",
-						"          area_km2 as string,",
-						"          incidentes as string,",
-						"          observaciones as string",
-						"     ),",
-						"     partitionFileNames:['tbl_operacones.csv'],",
-						"     umask: 0022,",
-						"     preCommands: [],",
-						"     postCommands: [],",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     partitionBy('hash', 1)) ~> sink1"
-					]
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/ds_bronze_tbl_operaciones')]",
-				"[concat(variables('factoryId'), '/datasets/ds_silver_operaciones')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/df_silver_movimientos_personal')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "ds_bronze_tbl_movimientos_personal",
-								"type": "DatasetReference"
-							},
-							"name": "source1"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "ds_silver_movimientos_personal",
-								"type": "DatasetReference"
-							},
-							"name": "sink1"
-						}
-					],
-					"transformations": [
-						{
-							"name": "derivedColumn1"
-						}
-					],
-					"scriptLines": [
-						"source(output(",
-						"          id_movimiento as string,",
-						"          id_efectivo as string,",
-						"          id_unidad_destino as string,",
-						"          id_rango as string,",
-						"          id_tipo as string,",
-						"          fecha_movimiento as string,",
-						"          antiguedad_anios as string,",
-						"          salario_mensual as string,",
-						"          observaciones as string",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false) ~> source1",
-						"source1 derive(fecha_movimiento = coalesce(\r",
-						"toDate(fecha_movimiento,'yyyy/MM/dd'),\r",
-						"toDate(fecha_movimiento,'yyyy-MM-dd'),\r",
-						"toDate(fecha_movimiento,'dd/MM/yyyy'),\r",
-						"toDate(fecha_movimiento,'dd-MM-yyyy'),\r",
-						"toDate(fecha_movimiento,'MM-dd-yyyy'),\r",
-						"toDate(fecha_movimiento,'yyyyMMdd')\r",
-						"),",
-						"          antiguedad_anios = toInteger(\r",
-						"replace(\r",
-						"replace(\r",
-						"replace(\r",
-						"replace(\r",
-						"replace(\r",
-						"replace(\r",
-						"replace(\r",
-						"replace(\r",
-						"replace(\r",
-						"replace(\r",
-						"replace(\r",
-						"replace(\r",
-						"replace(\r",
-						"replace(\r",
-						"replace(\r",
-						"replace(\r",
-						"replace(\r",
-						"replace(\r",
-						"replace(\r",
-						"replace(\r",
-						"replace(\r",
-						"lower(trim(antiguedad_anios)),\r",
-						"'aprox.',''),\r",
-						"'aprox',''),\r",
-						"'cero','0'),\r",
-						"'uno','1'),\r",
-						"'dos','2'),\r",
-						"'tres','3'),\r",
-						"'cuatro','4'),\r",
-						"'cinco','5'),\r",
-						"'seis','6'),\r",
-						"'siete','7'),\r",
-						"'ocho','8'),\r",
-						"'nueve','9'),\r",
-						"'diez','10'),\r",
-						"'once','11'),\r",
-						"'doce','12'),\r",
-						"'trece','13'),\r",
-						"'catorce','14'),\r",
-						"'quince','15'),\r",
-						"'años',''),\r",
-						"'a.',''),\r",
-						"',0','')\r",
-						"),",
-						"          salario_mensual = toDouble(\r",
-						"replace(\r",
-						"replace(\r",
-						"replace(\r",
-						"replace(\r",
-						"replace(\r",
-						"trim(salario_mensual),\r",
-						"'Bs.',''),\r",
-						"'Bs',''),\r",
-						"',',''),\r",
-						"' ',''),\r",
-						"'bs','')\r",
-						")) ~> derivedColumn1",
-						"derivedColumn1 sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     input(",
-						"          id_movimiento as string,",
-						"          id_efectivo as string,",
-						"          id_unidad_destino as string,",
-						"          id_rango as string,",
-						"          id_tipo as string,",
-						"          fecha_movimiento as string,",
-						"          antiguedad_anios as string,",
-						"          salario_mensual as string,",
-						"          observaciones as string",
-						"     ),",
-						"     partitionFileNames:['tbl_movimientos_personal.csv'],",
-						"     umask: 0022,",
-						"     preCommands: [],",
-						"     postCommands: [],",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     partitionBy('hash', 1)) ~> sink1"
-					]
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/ds_bronze_tbl_movimientos_personal')]",
-				"[concat(variables('factoryId'), '/datasets/ds_silver_movimientos_personal')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/df_silver_zonas')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "ds_bronze_tbl_zonas",
-								"type": "DatasetReference"
-							},
-							"name": "source1"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "ds_silver_zonas",
-								"type": "DatasetReference"
-							},
-							"name": "sink1"
-						}
-					],
-					"transformations": [],
-					"scriptLines": [
-						"source(output(",
-						"          id_zona as string,",
-						"          nombre as string,",
-						"          departamento as string,",
-						"          frontera_con as string,",
-						"          tipo_terreno as string,",
-						"          altitud_msnm as string,",
-						"          nivel_riesgo as string,",
-						"          acceso_carretero as string",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false) ~> source1",
-						"source1 sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     input(",
-						"          id_zona as string,",
-						"          nombre as string,",
-						"          departamento as string,",
-						"          frontera_con as string,",
-						"          tipo_terreno as string,",
-						"          altitud_msnm as string,",
-						"          nivel_riesgo as string,",
-						"          acceso_carretero as string",
-						"     ),",
-						"     partitionFileNames:['tbl_zonas.csv'],",
-						"     umask: 0022,",
-						"     preCommands: [],",
-						"     postCommands: [],",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     partitionBy('hash', 1)) ~> sink1"
-					]
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/ds_bronze_tbl_zonas')]",
-				"[concat(variables('factoryId'), '/datasets/ds_silver_zonas')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/df_silver_tipos_mvimiento')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "ds_bronze_tbl_tipos_movimento",
-								"type": "DatasetReference"
-							},
-							"name": "source1"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "ds_silver_tipos_movimiento",
-								"type": "DatasetReference"
-							},
-							"name": "sink1"
-						}
-					],
-					"transformations": [],
-					"scriptLines": [
-						"source(output(",
-						"          id_tipo as string,",
-						"          nombre as string,",
-						"          descripcion as string",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false) ~> source1",
-						"source1 sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     input(",
-						"          id_tipo as string,",
-						"          nombre as string,",
-						"          descripcion as string",
-						"     ),",
-						"     partitionFileNames:['tbl_tipos_movimiento.csv'],",
-						"     umask: 0022,",
-						"     preCommands: [],",
-						"     postCommands: [],",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     partitionBy('hash', 1)) ~> sink1"
-					]
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/ds_bronze_tbl_tipos_movimento')]",
-				"[concat(variables('factoryId'), '/datasets/ds_silver_tipos_movimiento')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/df_silver_tipos_operacion')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "ds_bronze_tbl_tipos_operacion",
-								"type": "DatasetReference"
-							},
-							"name": "source1"
-						}
-					],
-					"sinks": [
 						{
 							"dataset": {
 								"referenceName": "ds_silver_tipos_operacion",
 								"type": "DatasetReference"
 							},
+							"name": "source1"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "ds_gold_dim_tipo_operacion",
+								"type": "DatasetReference"
+							},
 							"name": "sink1"
 						}
 					],
@@ -3377,27 +2118,31 @@
 						"source1 sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     input(",
-						"          id_tipo as string,",
+						"          id_tipo as integer,",
 						"          nombre as string,",
 						"          categoria as string",
 						"     ),",
-						"     partitionFileNames:['tbl_tipos_operacion.csv'],",
-						"     umask: 0022,",
-						"     preCommands: [],",
-						"     postCommands: [],",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
 						"     skipDuplicateMapInputs: true,",
 						"     skipDuplicateMapOutputs: true,",
-						"     partitionBy('hash', 1)) ~> sink1"
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     partitionBy('hash', 1),",
+						"     preCommands: [],",
+						"     postCommands: []) ~> sink1"
 					]
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/ds_bronze_tbl_tipos_operacion')]",
-				"[concat(variables('factoryId'), '/datasets/ds_silver_tipos_operacion')]"
+				"[concat(variables('factoryId'), '/datasets/ds_silver_tipos_operacion')]",
+				"[concat(variables('factoryId'), '/datasets/ds_gold_dim_tipo_operacion')]"
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/df_estructura_organizacional')]",
+			"name": "[concat(parameters('factoryName'), '/df_gold_dim_tipos_movimiento')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -3406,7 +2151,7 @@
 					"sources": [
 						{
 							"dataset": {
-								"referenceName": "ds_bronze_tbl_estructura_organizacional",
+								"referenceName": "ds_gold_dim_tipo_movimiento",
 								"type": "DatasetReference"
 							},
 							"name": "source1"
@@ -3415,7 +2160,7 @@
 					"sinks": [
 						{
 							"dataset": {
-								"referenceName": "ds_silver_estructura_organizacional",
+								"referenceName": "ds_gold_dim_tipo_operacion",
 								"type": "DatasetReference"
 							},
 							"name": "sink1"
@@ -3424,13 +2169,145 @@
 					"transformations": [],
 					"scriptLines": [
 						"source(output(",
-						"          id_estructura as string,",
-						"          id_padre as string,",
-						"          nivel as string,",
+						"          id_tipo as integer,",
 						"          nombre as string,",
-						"          sigla as string,",
-						"          tipo as string,",
-						"          cobertura_departamentos as string",
+						"          descripcion as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> source1",
+						"source1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          id_tipo as integer,",
+						"          nombre as string,",
+						"          categoria as string",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     partitionBy('hash', 1),",
+						"     preCommands: [],",
+						"     postCommands: []) ~> sink1"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/ds_gold_dim_tipo_movimiento')]",
+				"[concat(variables('factoryId'), '/datasets/ds_gold_dim_tipo_operacion')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/df_gold_dim_unidad')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "ds_gold_dim_unidad",
+								"type": "DatasetReference"
+							},
+							"name": "source1"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "ds_gold_dim_unidad",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [],
+					"scriptLines": [
+						"source(output(",
+						"          id_unidad as integer,",
+						"          id_brigada as integer,",
+						"          nombre as string,",
+						"          codigo as string,",
+						"          ciudad as string,",
+						"          departamento as string,",
+						"          tipo_cuartel as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> source1",
+						"source1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          id_unidad as integer,",
+						"          id_brigada as integer,",
+						"          nombre as string,",
+						"          codigo as string,",
+						"          ciudad as string,",
+						"          departamento as string,",
+						"          tipo_cuartel as string",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     partitionBy('hash', 1),",
+						"     preCommands: [],",
+						"     postCommands: []) ~> sink1"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/ds_gold_dim_unidad')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/df_gold_dim_zona_operacion')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "ds_silver_zonas",
+								"type": "DatasetReference"
+							},
+							"name": "source1"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "ds_gold_dim_zona_operacion",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [],
+					"scriptLines": [
+						"source(output(",
+						"          id_zona as string,",
+						"          nombre as string,",
+						"          departamento as string,",
+						"          frontera_con as string,",
+						"          tipo_terreno as string,",
+						"          altitud_msnm as string,",
+						"          nivel_riesgo as string,",
+						"          acceso_carretero as string",
 						"     ),",
 						"     allowSchemaDrift: true,",
 						"     validateSchema: false,",
@@ -3438,27 +2315,186 @@
 						"source1 sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     input(",
-						"          id_estructura as string,",
-						"          id_padre as string,",
-						"          nivel as string,",
+						"          id_zona as integer,",
 						"          nombre as string,",
-						"          sigla as string,",
-						"          tipo as string,",
-						"          cobertura_departamentos as string",
+						"          departamento as string,",
+						"          frontera_con as string,",
+						"          tipo_terreno as string,",
+						"          altitud_msnm as integer,",
+						"          nivel_riesgo as string",
 						"     ),",
-						"     partitionFileNames:['tbl_estructura_organizacional.csv'],",
-						"     umask: 0022,",
-						"     preCommands: [],",
-						"     postCommands: [],",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
 						"     skipDuplicateMapInputs: true,",
 						"     skipDuplicateMapOutputs: true,",
-						"     partitionBy('hash', 1)) ~> sink1"
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     partitionBy('hash', 1),",
+						"     preCommands: [],",
+						"     postCommands: []) ~> sink1"
 					]
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/ds_bronze_tbl_estructura_organizacional')]",
-				"[concat(variables('factoryId'), '/datasets/ds_silver_estructura_organizacional')]"
+				"[concat(variables('factoryId'), '/datasets/ds_silver_zonas')]",
+				"[concat(variables('factoryId'), '/datasets/ds_gold_dim_zona_operacion')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/df_gold_hechos_movimiento_personal')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "ds_silver_movimientos_personal",
+								"type": "DatasetReference"
+							},
+							"name": "source1"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "ds_gold_hechos_movimientos_personal",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [],
+					"scriptLines": [
+						"source(output(",
+						"          id_movimiento as string,",
+						"          id_efectivo as string,",
+						"          id_unidad_destino as string,",
+						"          id_rango as string,",
+						"          id_tipo as string,",
+						"          fecha_movimiento as string,",
+						"          antiguedad_anios as string,",
+						"          salario_mensual as string,",
+						"          observaciones as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> source1",
+						"source1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          id_movimiento as integer,",
+						"          id_efectivo as integer,",
+						"          id_unidad_destino as integer,",
+						"          id_rango as integer,",
+						"          id_tipo_movimiento as integer,",
+						"          fecha_movimiento as date,",
+						"          antiguedad_anios as integer,",
+						"          salario_mensual as decimal(18,2)",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     partitionBy('hash', 1),",
+						"     preCommands: [],",
+						"     postCommands: []) ~> sink1"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/ds_silver_movimientos_personal')]",
+				"[concat(variables('factoryId'), '/datasets/ds_gold_hechos_movimientos_personal')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/df_gold_hechos_operacion')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "ds_silver_operaciones",
+								"type": "DatasetReference"
+							},
+							"name": "source1"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "ds_gold_hechos_operacion",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [],
+					"scriptLines": [
+						"source(output(",
+						"          id_operacion as string,",
+						"          id_tipo as string,",
+						"          id_unidad_resp as string,",
+						"          id_zona as string,",
+						"          nombre_operacion as string,",
+						"          fecha_inicio as string,",
+						"          fecha_fin as string,",
+						"          efectivos_desplegados as string,",
+						"          vehiculos_utilizados as string,",
+						"          duracion_dias as string,",
+						"          costo_operacion as string,",
+						"          resultado as string,",
+						"          detenidos as string,",
+						"          area_km2 as string,",
+						"          incidentes as string,",
+						"          observaciones as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> source1",
+						"source1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          id_operacion as integer,",
+						"          id_tipo_operacion as integer,",
+						"          id_unidad_resp as integer,",
+						"          id_zona as integer,",
+						"          fecha_inicio as date,",
+						"          fecha_fin as date,",
+						"          efectivos_desplegados as integer,",
+						"          vehiculos_utilizados as integer,",
+						"          duracion_dias as integer,",
+						"          costo_operacion as decimal(18,2),",
+						"          area_km2 as decimal(18,2),",
+						"          incidentes_reportados as integer",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     partitionBy('hash', 1),",
+						"     preCommands: [],",
+						"     postCommands: []) ~> sink1"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/ds_silver_operaciones')]",
+				"[concat(variables('factoryId'), '/datasets/ds_gold_hechos_operacion')]"
 			]
 		}
 	]
